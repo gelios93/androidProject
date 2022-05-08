@@ -1,4 +1,4 @@
-# androidProject
+# Android Project DOYO_Chat (Draw On Your Own)
 
 В команде курсовой работы студенты группы УИ191 Белик Яна и Деревенча Владимир
 
