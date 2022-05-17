@@ -28,13 +28,15 @@ object HttpService {
         if(token != "пися" || (email != " " && password != " ")) {
             return runBlocking {
                 val htmlContent : HttpResponse = client.post("$SERVER_IP/api/auth/signin") {
-                    if(email != " " && password != " ")
+                    if(email != " " && password != " ") {
                         body = FormDataContent( // создаем параметры, которые будут переданы в form
                             Parameters.build {
                                 append("email", email)
                                 append("password", password)
                             }
                         )
+                        header(HttpHeaders.Authorization, "Bearer null")
+                    }
                     else
                         header(HttpHeaders.Authorization, token)
 

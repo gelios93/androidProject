@@ -18,6 +18,9 @@ class ProfileActivity : AppCompatActivity() {
         val respBody = JSONObject(intent.getStringExtra("data"))
         println(respBody.toString(2))
 
+//        respBody.has("icon")
+//        respBody.get("icon")
+
         binding.signout.setOnClickListener {
             val sharedPref = this.getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
             sharedPref.edit().remove("token").apply()
