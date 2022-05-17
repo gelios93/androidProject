@@ -29,7 +29,7 @@
         android:ems="10"
 
         android:hint="PASSWORD"
-        android:inputType="textVisiblePassword"
+        android:inputType="textPassword"
         android:textColor="@color/colorAncient"
         android:textColorHint="@color/colorPrimary"
 
