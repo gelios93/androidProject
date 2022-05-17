@@ -12,14 +12,15 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //hi!
         //hi...
-        val binding = ActivityProfileBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         val respBody = JSONObject(intent.getStringExtra("data"))
         println(respBody.toString(2))
 
 //        respBody.has("icon")
 //        respBody.get("icon")
+
+
+        val binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.signout.setOnClickListener {
             val sharedPref = this.getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
@@ -28,5 +29,9 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }
