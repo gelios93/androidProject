@@ -12,6 +12,10 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //hi!
         //hi...
+        //More, know I got it so here we go (let's go)
+        //You look like you could use some more
+        //Know I got it and never running low (o-y-a-oooooooo)
+
         val respBody = JSONObject(intent.getStringExtra("data"))
         println(respBody.toString(2))
 
