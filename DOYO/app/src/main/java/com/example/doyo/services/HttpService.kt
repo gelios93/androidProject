@@ -41,13 +41,21 @@ object HttpService {
                         header(HttpHeaders.Authorization, token)
 
                 }
-                respBody = JSONObject(String(htmlContent.readBytes(), StandardCharsets.US_ASCII))
                 val code = htmlContent.status.value
-                if (code != 200){
-                    respBody.put("code", htmlContent.status.value)
+                if (code !in 500..599){
+                    respBody = JSONObject(String(htmlContent.readBytes(), StandardCharsets.US_ASCII))
+                    if (code !in 200..299){
+                        println(code)
+                        respBody.put("code", htmlContent.status.value)
+                    }
+                    else {
+                        sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
+                    }
                 }
                 else {
-                    sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
+                    respBody = JSONObject()
+                    respBody.put("message", "Server is not active")
+                    respBody.put("code", code)
                 }
                 respBody
             }
