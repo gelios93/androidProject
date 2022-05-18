@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.doyo.databinding.ActivityProfileBinding
+import com.example.doyo.services.HttpService
 import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class ProfileActivity : AppCompatActivity() {
         //You look like you could use some more
         //Know I got it and never running low (o-y-a-oooooooo)
 
-        val respBody = JSONObject(intent.getStringExtra("data"))
+        val respBody = JSONObject(intent.getStringExtra("data")!!)
         println(respBody.toString(2))
 
 //        respBody.has("icon")
@@ -33,6 +34,13 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        //Для изменения никнейма ИЛИ аватарки HttpService.editData()
+        //Постоянное возвращаемое поле "message" ("Success" или "No changes" в случае успеха и описание ошибки в случае хуйни)
+        //HttpService.editData(this, username = "username") - ник (с возвращаемым доп полем "username")
+        //HttpService.editData(this, icon = "binaryIcon") - аватарка (с возвращаемым доп полем "icon")
+        //В случае ошибки так же содержит поле "code"
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

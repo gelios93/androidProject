@@ -23,13 +23,12 @@ object HttpService {
         val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
         val respBody: JSONObject
         val token = sharedPref.getString("token", "пися")
-        println(token)
 
         if(token != "пися" || (email != " " && password != " ")) {
             return runBlocking {
                 val htmlContent : HttpResponse = client.post("$SERVER_IP/api/auth/signin") {
                     if(email != " " && password != " ") {
-                        body = FormDataContent( // создаем параметры, которые будут переданы в form
+                        body = FormDataContent(
                             Parameters.build {
                                 append("email", email)
                                 append("password", password)
@@ -41,27 +40,16 @@ object HttpService {
                         header(HttpHeaders.Authorization, token)
 
                 }
-                val code = htmlContent.status.value
-                if (code !in 500..599){
-                    respBody = JSONObject(String(htmlContent.readBytes(), StandardCharsets.US_ASCII))
-                    if (code !in 200..299){
-                        println(code)
-                        respBody.put("code", htmlContent.status.value)
-                    }
-                    else {
-                        sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
-                    }
+
+                respBody = getResponse(htmlContent)
+                if (!respBody.has("code")){
+                    sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
                 }
-                else {
-                    respBody = JSONObject()
-                    respBody.put("message", "Server is not active")
-                    respBody.put("code", code)
-                }
+
                 respBody
             }
         }
         else {
-            respBody = JSONObject()
             return null
         }
 
@@ -72,7 +60,7 @@ object HttpService {
 
         return runBlocking {
             val htmlContent : HttpResponse = client.post("$SERVER_IP/api/auth/signup") {
-                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                body = FormDataContent(
                     Parameters.build {
                         append("username", username)
                         append("email", email)
@@ -80,19 +68,57 @@ object HttpService {
                     }
                 )
             }
-            val code = htmlContent.status.value
-            if (code != 200){
-                respBody = JSONObject(String(htmlContent.readBytes(), StandardCharsets.US_ASCII))
-                respBody?.put("code", htmlContent.status.value)
-            }
-            else {
+
+            respBody = getResponse(htmlContent)
+            if (!respBody!!.has("code")){
                 respBody = signIn(context, email, password)
             }
+
             respBody
         }
     }
 
-    fun editData() {
+    fun editData(context: Context, username: String = " ", icon: String = " ") : JSONObject {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/editData") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        if (icon != " ")
+                            append("icon", icon)
+                        else
+                            append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent)
+
+            respBody
+        }
+    }
+
+    private fun getResponse(response: HttpResponse) : JSONObject {
+        val respBody: JSONObject
+        val code = response.status.value
+
+        if (code in 500..599){
+            respBody = JSONObject()
+            respBody.put("message", "Server is not active")
+            respBody.put("code", code)
+            return respBody
+        }
+
+        return runBlocking {
+            respBody = JSONObject(String(response.readBytes(), StandardCharsets.US_ASCII))
+            if (code !in 200..299){
+                respBody.put("code", code)
+            }
+            respBody
+        }
 
     }
 
