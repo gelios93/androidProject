@@ -4,4 +4,45 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#FDC830</color>
     <color name="colorAncient">#03DAC5</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="red_palette">#FF0000</color>
+    <color name="pink_palette">#FA98CB</color>
+    <color name="fuchsia_palette">#AC1AC0</color>
+    <color name="violet_palette">#6D14CE</color>
+    <color name="blue_palette">#0214BA</color>
+    <color name="sky_blue_palette">#5677FC</color>
+    <color name="cyan_palette">#4DC7FD</color>
+    <color name="dark_cyan_palette">#02C4CE</color>
+    <color name="dark_green">#088276</color>
+    <color name="green_palette">#21AC12</color>
+    <color name="light_green">#92D050</color>
+    <color name="yellow_palette">#FFFF1D</color>
+    <color name="light_orange_palette">#FEC107</color>
+    <color name="orange_palette">#FF6E01</color>
+    <color name="brown_palette">#754B4B</color>
+    <color name="gray_palette">#7B8B91</color>
+    <color name="skin_palette">#F8E8CF</color>
+
+    <array name="palette">
+        <item>@color/red_palette</item>
+        <item>@color/pink_palette</item>
+        <item>@color/fuchsia_palette</item>
+        <item>@color/violet_palette</item>
+        <item>@color/blue_palette</item>
+        <item>@color/sky_blue_palette</item>
+        <item>@color/cyan_palette</item>
+        <item>@color/dark_green</item>
+        <item>@color/green_palette</item>
+        <item>@color/light_green</item>
+        <item>@color/skin_palette</item>
+        <item>@color/yellow_palette</item>
+        <item>@color/light_orange_palette</item>
+        <item>@color/orange_palette</item>
+        <item>@color/brown_palette</item>
+        <item>@color/white</item>
+        <item>@color/gray_palette</item>
+        <item>@color/black</item>
+    </array>
 </resources>
