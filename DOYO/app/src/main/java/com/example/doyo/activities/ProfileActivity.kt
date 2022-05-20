@@ -2,11 +2,18 @@ package com.example.doyo.activities
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.graphics.drawable.toBitmap
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.example.doyo.R
+import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
 import com.example.doyo.services.HttpService
 import com.example.doyo.services.SocketService
+import com.example.doyo.toBitmap
+import com.example.doyo.toMap
 import io.socket.client.Socket
 import org.json.JSONObject
 
@@ -36,8 +43,33 @@ class ProfileActivity : AppCompatActivity() {
             socket.emit("hello", "Боже..........................")
         }
 
+        lateinit var avatar: Bitmap
+        if (respBody.has("icon")) {
+            avatar = toBitmap(respBody.get("icon").toString())
+        } else {
+            //Default icon
+            val drawable = VectorDrawableCompat.create(resources, R.drawable.default_avatar, this.theme)
+            avatar = drawable?.toBitmap()!!
+        }
+
         val binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val editLauncher = registerForActivityResult(EditContract()) {
+            when(it.result) {
+                true -> {
+                    println("GET RESULT FROM ACTIVITY: ${it.result}")
+                }
+                false -> {
+                    println("GET RESULT FROM ACTIVITY: ${it.result}")
+                }
+            }
+        }
+
+        //Should create Account object to parse JSON response later
+        binding.avatar.setImageBitmap(avatar)
+        val account =  respBody.toMap()["account"] as Map<String, String>
+        binding.username.text = account["username"]
 
         binding.signout.setOnClickListener {
             val sharedPref = this.getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
@@ -47,6 +79,10 @@ class ProfileActivity : AppCompatActivity() {
             finish()
 
             socket.disconnect()
+        }
+
+        binding.avatar.setOnClickListener {
+
         }
 
 

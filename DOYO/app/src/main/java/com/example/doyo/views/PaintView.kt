@@ -1,30 +1,29 @@
 package com.example.doyo.views
 
-import android.content.Context
-import android.graphics.*
-import android.util.AttributeSet
-import android.util.Base64
-import android.view.MotionEvent
-import android.view.View
-import java.io.ByteArrayOutputStream
 import kotlin.math.abs
-
+import android.view.View
+import android.graphics.*
+import android.content.Context
+import android.view.MotionEvent
+import android.util.AttributeSet
 
 class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     init {
         paint.color = Color.BLACK
         paint.style = Paint.Style.STROKE
-        paint.strokeCap = Paint.Cap.ROUND //make the and of line round
+        paint.strokeCap = Paint.Cap.ROUND //make the end of line round
         paint.strokeJoin = Paint.Join.ROUND
-        paint.strokeWidth = 40f
-        paint.isAntiAlias = true //make brush or texture smooth
+        paint.strokeWidth = 8f
+        paint.isAntiAlias = true //make brush smooth
     }
+
 
     companion object {
         lateinit var bitmap: Bitmap
-        lateinit var canvasBitmap: Canvas
         const val touchTolerance = 4f
+        lateinit var canvasBitmap: Canvas
+        var eraseColor = Color.TRANSPARENT
         var paintBitmap = Paint()//pencil used to draw on Bitmap
         var pathList = ArrayList<Pair<Path, Paint>>()
         var paint = Paint() //appearance of line
@@ -37,6 +36,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         super.onSizeChanged(w, h, oldw, oldh)
         //create a bucket where we can put all the pixels which we trace around the screen
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888) //has rgb channel without transparency
+        bitmap.eraseColor(eraseColor)
         canvasBitmap = Canvas(bitmap) //put bitmap which will be drawn by Canvas
     }
 
@@ -66,7 +66,6 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private fun touchStarted(x: Float, y: Float) {
         val newPaint = Paint(paint)
-        //val newPath = Path(path)
         pathList.add(Pair(path, newPaint));
         //move to the coordinates of the touch
         path.reset()
@@ -98,7 +97,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     fun clear() {
         pathList.clear()
-        bitmap.eraseColor(Color.TRANSPARENT)
+        bitmap.eraseColor(eraseColor)
         invalidate()
     }
 
@@ -106,6 +105,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         if (pathList.size >= 1) {
             pathList.removeAt(pathList.size - 1)
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            bitmap.eraseColor(eraseColor)
             canvasBitmap = Canvas(bitmap)
             for ((first, second) in pathList)
                 canvasBitmap.drawPath(first, second)
@@ -113,11 +113,10 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
     }
 
-    fun toBase64(): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    fun initBackground(color: Int) {
+        eraseColor = color
+        paint.color = Color.BLACK
+        paint.strokeWidth = 8f
     }
 
 }
