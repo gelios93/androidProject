@@ -2,7 +2,6 @@ package com.example.doyo.activities
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.graphics.drawable.toBitmap
@@ -12,8 +11,6 @@ import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
 import com.example.doyo.services.AccountService
 import com.example.doyo.services.SocketService
-import com.example.doyo.toBitmap
-import com.example.doyo.toMap
 import io.socket.client.Socket
 import org.json.JSONObject
 
@@ -23,11 +20,7 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //hi!
-        //hi...
-        //More, know I got it so here we go (let's go)
-        //You look like you could use some more
-        //Know I got it and never running low (o-y-a-oooooooo)
+        //Less.
 
         val respBody = JSONObject(intent.getStringExtra("data")!!)
         println(respBody.toString(2))
@@ -40,39 +33,38 @@ class ProfileActivity : AppCompatActivity() {
         socket.on("connect") {
             println(socket.id())
             socket.on("hello") { args ->
-
                 println(args[0])
             }
             socket.emit("hello", "Боже..........................")
         }
 
-        lateinit var avatar: Bitmap
-        if (respBody.has("icon")) {
-            avatar = toBitmap(respBody.get("icon").toString())
-        } else {
-            //Default icon
-            val drawable = VectorDrawableCompat.create(resources, R.drawable.default_avatar, this.theme)
-            avatar = drawable?.toBitmap()!!
-        }
-
         val binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val editLauncher = registerForActivityResult(EditContract()) {
             when(it.result) {
                 true -> {
-                    println("GET RESULT FROM ACTIVITY: ${it.result}")
+                    binding.icon.setImageBitmap(AccountService.icon)
                 }
                 false -> {
-                    println("GET RESULT FROM ACTIVITY: ${it.result}")
+                    if (AccountService.icon != null)
+                        binding.icon.setImageBitmap(AccountService.icon)
+                    else {
+                        val drawable = VectorDrawableCompat.create(resources, R.drawable.default_avatar, this.theme)
+                        binding.icon.setImageBitmap(drawable?.toBitmap()!!)
+                    }
                 }
             }
         }
 
-        //Should create Account object to parse JSON response later
-        binding.avatar.setImageBitmap(avatar)
-        val account =  respBody.toMap()["account"] as Map<String, String>
-        binding.username.text = account["username"]
+        if (AccountService.icon != null) {
+            binding.icon.setImageBitmap(AccountService.icon)
+        } else {
+            editLauncher.launch(EditContract.Input("new"))
+        }
+
+        binding.username.text = AccountService.username
 
         binding.signout.setOnClickListener {
             val sharedPref = this.getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
@@ -83,7 +75,6 @@ class ProfileActivity : AppCompatActivity() {
 
             socket.disconnect()
         }
-
 
         binding.find.setOnClickListener {
             socket.emit("init")
@@ -104,9 +95,8 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        binding.avatar.setOnClickListener {
-
+        binding.icon.setOnClickListener {
+            editLauncher.launch(EditContract.Input("edit"))
         }
 
 

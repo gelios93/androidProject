@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#9e9ee9"
+    android:background="#e6e6fc"
     tools:context=".activities.DrawActivity">
 
     <include
@@ -29,13 +29,13 @@
                 android:visibility="invisible"
                 android:alpha="0.4"/>
 
-            <com.example.doyo.views.PaintView
+            <com.example.doyo.PaintView
                 android:id="@+id/paintView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:layout_editor_absoluteX="0dp">
-            </com.example.doyo.views.PaintView>
+            </com.example.doyo.PaintView>
 
     </RelativeLayout>
 

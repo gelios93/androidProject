@@ -1,20 +1,22 @@
 package com.example.doyo.activities
 
-import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import com.example.doyo.R
-import com.example.doyo.views.PaintView
+import com.example.doyo.PaintView
 import com.example.drawingapp.ClearDialog
 import com.example.drawingapp.ColorPicker
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.doyo.databinding.ActivityEditBinding
-
-lateinit var editBinding: ActivityEditBinding
+import com.example.doyo.services.AccountService
+import com.example.doyo.services.HttpService
+import com.example.doyo.toBase64
 
 class EditActivity: AppCompatActivity(), ColorPicker.ColorPickerListener {
+
+    lateinit var editBinding: ActivityEditBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +25,15 @@ class EditActivity: AppCompatActivity(), ColorPicker.ColorPickerListener {
 
         val clickAnim = AnimationUtils.loadAnimation(this, R.anim.anim_draw_item)
 
-        val inputBitmap = intent?.getParcelableExtra<Bitmap>("BitmapImage")
-        //val inputBitmap = intent?.getStringExtra("BitmapImage")
-        if (inputBitmap != null)
-            println("We have icon here $inputBitmap")
-            //editBinding.paintView.setBitmapIcon(inputBitmap)
-        else
-            //editBinding.paintView.initEdit(Color.WHITE)
+        if (intent?.extras?.get("mode") == "new")
+            editBinding.paintView.init(Color.WHITE)
+        if (intent?.extras?.get("mode") == "edit")
+            editBinding.paintView.init(Color.WHITE, icon = AccountService.icon)
 
-        //Слайдер не находит
-        //editBinding.paintFooter.slider.addOnChangeListener { _, value, _ ->
-        //    PaintView.paint.strokeWidth = value
-        //}
 
+        editBinding.paintFooter.slider.addOnChangeListener { _, value, _ ->
+            PaintView.paint.strokeWidth = value
+        }
 
         editBinding.paintFooter.btnUndo.setOnClickListener {
             it.startAnimation(clickAnim)
@@ -56,11 +54,21 @@ class EditActivity: AppCompatActivity(), ColorPicker.ColorPickerListener {
 
         editBinding.paintHeader.btnSkip.setOnClickListener {
             it.startAnimation(clickAnim)
+            setResult(RESULT_CANCELED)
+            finish()
         }
 
         editBinding.paintHeader.btnSave.setOnClickListener {
             it.startAnimation(clickAnim)
-            setResult(RESULT_CANCELED, Intent())
+            val response = HttpService.editData(this, icon = toBase64(PaintView.bitmap))
+            if (response.get("message") == "Success") {
+                AccountService.icon = PaintView.bitmap
+                setResult(RESULT_OK)
+            }
+            else {
+                setResult(RESULT_CANCELED)
+                Toast.makeText(this, "Saving error", Toast.LENGTH_SHORT).show()
+            }
             finish()
         }
     }
