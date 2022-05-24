@@ -10,7 +10,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.R
 import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
-import com.example.doyo.services.HttpService
+import com.example.doyo.services.AccountService
 import com.example.doyo.services.SocketService
 import com.example.doyo.toBitmap
 import com.example.doyo.toMap
@@ -32,13 +32,16 @@ class ProfileActivity : AppCompatActivity() {
         val respBody = JSONObject(intent.getStringExtra("data")!!)
         println(respBody.toString(2))
 
-        SocketService.setSocket(respBody.get("accessToken").toString())
-        socket = SocketService.getSocket()
+        AccountService.initAccount(respBody)
+        SocketService.initSocket(respBody.getString("accessToken"))
+
+        socket = SocketService.socket
         socket.connect()
         socket.on("connect") {
             println(socket.id())
             socket.on("hello") { args ->
-                println(1)
+
+                println(args[0])
             }
             socket.emit("hello", "Боже..........................")
         }
@@ -80,6 +83,27 @@ class ProfileActivity : AppCompatActivity() {
 
             socket.disconnect()
         }
+
+
+        binding.find.setOnClickListener {
+            socket.emit("init")
+        }
+
+        binding.create.setOnClickListener {
+            val args = JSONObject()
+            args.put("players_num", 3)
+            args.put("frames_num", 3)
+            args.put("game_time", 30000)
+            socket.emit("init", args)
+        }
+
+        socket.on("init") { body ->
+            val intent = Intent(this, RoomActivity::class.java).apply {
+                putExtra("data", body[0].toString())
+            }
+            startActivity(intent)
+        }
+
 
         binding.avatar.setOnClickListener {
 

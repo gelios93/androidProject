@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit
 
 object SocketService {
 
-    private lateinit var socket: Socket
+    lateinit var socket: Socket
 
     @Synchronized
-    fun setSocket(token: String) {
+    fun initSocket(token: String) {
         try {
 //          "http://10.0.2.2:3000" is the network your Android emulator must use to join the localhost network on your computer
 //          "http://localhost:3000/" will not work
@@ -36,9 +36,5 @@ object SocketService {
         }
     }
 
-    @Synchronized
-    fun getSocket(): Socket {
-        return socket
-    }
 
 }
