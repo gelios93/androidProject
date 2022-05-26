@@ -27,8 +27,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
         submit()
         val binding = FragmentSigninBinding.inflate(layoutInflater, container, false)
 
-        val emailText = binding.editEmailSignIn
-        val passwordText = binding.editPasswordSignIn
+        val emailText = binding.email
+        val passwordText = binding.password
 
         emailText.setText(parentActivity.email)
         passwordText.setText(parentActivity.password)
@@ -40,11 +40,27 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
             parentActivity.password = passwordText.text.toString()
         }
 
+        binding.email.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.editEmailSignIn.error = null
+        }
+
+        binding.password.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.editPasswordSignIn.error = null
+        }
+
         binding.submitIn.setOnClickListener {
-            submit(
-                emailText.text.toString(),
-                passwordText.text.toString()
-            )
+            if (emailText.text.toString() != "" && passwordText.text.toString() != "")
+                submit(emailText.text.toString(), passwordText.text.toString())
+            else {
+                if (emailText.text.toString() == "") {
+                    binding.editEmailSignIn.error = "This field must be filled"
+                    emailText.clearFocus()
+                }
+                if (passwordText.text.toString() == "") {
+                    binding.editPasswordSignIn.error = "This field must be filled"
+                    passwordText.clearFocus()
+                }
+            }
         }
 
         return binding.root
