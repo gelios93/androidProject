@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.R
 import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
+import com.example.doyo.fragments.EditNameDialog
 import com.example.doyo.services.AccountService
+import com.example.doyo.services.HttpService
 import com.example.doyo.services.SocketService
 import io.socket.client.Socket
 import org.json.JSONObject
@@ -41,7 +45,6 @@ class ProfileActivity : AppCompatActivity() {
         val binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val editLauncher = registerForActivityResult(EditContract()) {
             when(it.result) {
                 true -> {
@@ -63,6 +66,8 @@ class ProfileActivity : AppCompatActivity() {
         } else {
             editLauncher.launch(EditContract.Input("new"))
         }
+
+        val clickAnim = AnimationUtils.loadAnimation(this, R.anim.anim_draw_item)
 
         binding.username.text = AccountService.username
 
@@ -99,13 +104,28 @@ class ProfileActivity : AppCompatActivity() {
             editLauncher.launch(EditContract.Input("edit"))
         }
 
-
-        //Для изменения никнейма ИЛИ аватарки HttpService.editData()
-        //Постоянное возвращаемое поле "message" ("Success" или "No changes" в случае успеха и описание ошибки в случае хуйни)
-        //HttpService.editData(this, username = "username") - ник (с возвращаемым доп полем "username")
-        //HttpService.editData(this, icon = "binaryIcon") - аватарка (с возвращаемым доп полем "icon")
-        //В случае ошибки так же содержит поле "code"
-
+        binding.editButton.setOnClickListener {
+            it.startAnimation(clickAnim)
+            val editDialog = EditNameDialog (AccountService.username, object: EditNameDialog.SaveNameListener {
+                override fun saveName(context: Context, input: String): String? {
+                    val response = HttpService.editData(context, username = input)
+                    println(response.toString(2))
+                    return when {
+                        response.get("message") == "Success" -> {
+                            AccountService.username = input
+                            binding.username.text = input
+                            null
+                        }
+                        response.get("code") == 406 -> "This username is already in use"
+                        else -> {
+                            Toast.makeText(context, response.get("message").toString(), Toast.LENGTH_SHORT).show()
+                            null
+                        }
+                    }
+                }
+            })
+            editDialog.show(supportFragmentManager, "editNameDialog")
+        }
     }
 
     override fun onDestroy() {

@@ -59,9 +59,20 @@ class SignUpFragment : Fragment(R.layout.fragment_signup) {
 
             if (validationUsername.result && validationEmail.result && validationPassword.result) {
                 val body = HttpService.signUp(parentActivity, username, email, password)
-
+                println(body?.toString(2))
                 if (body != null && body.has("code")) {
-                    Toast.makeText(parentActivity, body.get("message").toString(), Toast.LENGTH_SHORT).show()
+                    if (body.get("code") == 406) {
+                        if (body.get("type") == "username") {
+                            binding.editUsernameSignUp.error = "This username is already in use"
+                            binding.username.clearFocus()
+                        }
+                        else {
+                            binding.editEmailSignUp.error = "This email is already in use"
+                            binding.email.clearFocus()
+                        }
+                    }
+                    else
+                        Toast.makeText(parentActivity, body.get("message").toString(), Toast.LENGTH_SHORT).show()
                 } else {
                     val intent = Intent(parentActivity, ProfileActivity::class.java).apply {
                         putExtra("data", body.toString())
