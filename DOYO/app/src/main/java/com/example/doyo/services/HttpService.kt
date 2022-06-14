@@ -9,6 +9,7 @@ import io.ktor.client.request.forms.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 
@@ -41,7 +42,7 @@ object HttpService {
 
                 }
 
-                respBody = getResponse(htmlContent)
+                respBody = getResponse(htmlContent, false)
                 if (!respBody.has("code")){
                     sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
                 }
@@ -69,7 +70,7 @@ object HttpService {
                 )
             }
 
-            respBody = getResponse(htmlContent)
+            respBody = getResponse(htmlContent, false)
             if (!respBody!!.has("code")){
                 respBody = signIn(context, email, password)
             }
@@ -95,13 +96,114 @@ object HttpService {
                 )
             }
 
-            respBody = getResponse(htmlContent)
+            respBody = getResponse(htmlContent, false)
 
             respBody
         }
     }
 
-    private fun getResponse(response: HttpResponse) : JSONObject {
+    fun searchUsers(context: Context, username: String) : JSONArray {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/friend/searchUsers") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent, true)
+
+            respBody.getJSONArray("data")
+        }
+    }
+
+    fun sendRequest(context: Context, username: String) : JSONObject {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/friend/sendRequest") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent, false)
+
+            respBody
+        }
+    }
+
+    fun cancelRequest(context: Context, username: String) : JSONObject {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/friend/cancelRequest") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent, false)
+
+            respBody
+        }
+    }
+
+    fun acceptRequest(context: Context, username: String) : JSONObject {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/friend/acceptRequest") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent, false)
+
+            respBody
+        }
+    }
+
+    fun deleteFriend(context: Context, username: String) : JSONObject {
+        val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+        var respBody: JSONObject
+
+        return runBlocking {
+            val htmlContent : HttpResponse = client.post("$SERVER_IP/api/friend/deleteFriend") {
+                header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
+                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                    Parameters.build {
+                        append("username", username)
+                    }
+                )
+            }
+
+            respBody = getResponse(htmlContent, false)
+
+            respBody
+        }
+    }
+
+    
+    private fun getResponse(response: HttpResponse, isArray: Boolean) : JSONObject  {
         val respBody: JSONObject
         val code = response.status.value
 
@@ -113,7 +215,16 @@ object HttpService {
         }
 
         return runBlocking {
-            respBody = JSONObject(String(response.readBytes(), StandardCharsets.US_ASCII))
+            if (isArray){
+                val json = JSONArray(String(response.readBytes(), StandardCharsets.US_ASCII))
+                respBody = JSONObject()
+                respBody.put("data", json)
+            }
+            else {
+                respBody = JSONObject(String(response.readBytes(), StandardCharsets.US_ASCII))
+            }
+
+
             if (code !in 200..299){
                 respBody.put("code", code)
             }
