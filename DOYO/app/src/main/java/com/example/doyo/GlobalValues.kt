@@ -11,6 +11,8 @@ import java.io.ByteArrayOutputStream
 
 const val SERVER_IP = "http://34.147.15.234"
 
+var isHost: Boolean = false
+
 fun toBase64(bitmap: Bitmap): String {
     val byteArrayOutputStream = ByteArrayOutputStream()
     PaintView.bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
