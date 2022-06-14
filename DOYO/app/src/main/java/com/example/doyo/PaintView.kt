@@ -1,4 +1,4 @@
-package com.example.doyo.views
+package com.example.doyo
 
 import kotlin.math.abs
 import android.view.View
@@ -14,7 +14,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         paint.style = Paint.Style.STROKE
         paint.strokeCap = Paint.Cap.ROUND //make the end of line round
         paint.strokeJoin = Paint.Join.ROUND
-        paint.strokeWidth = 8f
+        paint.strokeWidth = 16f
         paint.isAntiAlias = true //make brush smooth
     }
 
@@ -24,6 +24,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         const val touchTolerance = 4f
         lateinit var canvasBitmap: Canvas
         var eraseColor = Color.TRANSPARENT
+        var backgroundImage: Bitmap? = null
         var paintBitmap = Paint()//pencil used to draw on Bitmap
         var pathList = ArrayList<Pair<Path, Paint>>()
         var paint = Paint() //appearance of line
@@ -34,9 +35,15 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        //create a bucket where we can put all the pixels which we trace around the screen
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888) //has rgb channel without transparency
-        bitmap.eraseColor(eraseColor)
+        if (backgroundImage != null) {
+            backgroundImage = Bitmap.createScaledBitmap(backgroundImage!!, width, height, false);
+            bitmap = backgroundImage!!.copy(Bitmap.Config.ARGB_8888, true);
+        }
+        else {
+            //create a bucket where we can put all the pixels which we trace around the screen
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888) //has rgb channel without transparency
+            bitmap.eraseColor(eraseColor) //fill with color
+        }
         canvasBitmap = Canvas(bitmap) //put bitmap which will be drawn by Canvas
     }
 
@@ -98,14 +105,19 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     fun clear() {
         pathList.clear()
         bitmap.eraseColor(eraseColor)
+        backgroundImage = null
         invalidate()
     }
 
     fun undo() {
         if (pathList.size >= 1) {
             pathList.removeAt(pathList.size - 1)
-            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            bitmap.eraseColor(eraseColor)
+            if (backgroundImage != null)
+                bitmap = backgroundImage!!.copy(Bitmap.Config.ARGB_8888, true)
+            else {
+                Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                bitmap.eraseColor(eraseColor)
+            }
             canvasBitmap = Canvas(bitmap)
             for ((first, second) in pathList)
                 canvasBitmap.drawPath(first, second)
@@ -113,10 +125,16 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
     }
 
-    fun initBackground(color: Int) {
+    fun init(color: Int, icon: Bitmap? = null) {
         eraseColor = color
         paint.color = Color.BLACK
-        paint.strokeWidth = 8f
+        paint.strokeWidth = 16f
+        pathList = ArrayList()
+        path = Path()
+        xValue = 0f
+        yValue = 0f
+        backgroundImage = icon
+        invalidate()
     }
 
 }

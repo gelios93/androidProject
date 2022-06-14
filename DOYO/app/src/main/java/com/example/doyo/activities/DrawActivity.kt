@@ -5,16 +5,15 @@ import com.example.doyo.R
 import android.os.Bundle
 import com.example.doyo.toBase64
 import android.os.CountDownTimer
-import com.example.doyo.views.PaintView
+import com.example.doyo.PaintView
 import com.example.drawingapp.ClearDialog
 import com.example.drawingapp.ColorPicker
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.example.doyo.databinding.ActivityDrawBinding
 
-lateinit var drawBinding: ActivityDrawBinding
-
 class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
+    lateinit var drawBinding: ActivityDrawBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +27,9 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
             drawBinding.paintView.undo()
         }
 
-        //Слайдер не работает
-        //drawBinding.paintFooter.slider.addOnChangeListener { _, value, _ ->
-        //    PaintView.paint.strokeWidth = value
-        //}
+        drawBinding.paintFooter.slider.addOnChangeListener { _, value, _ ->
+            PaintView.paint.strokeWidth = value
+        }
 
         drawBinding.paintFooter.btnColor.setOnClickListener {
             it.startAnimation(clickAnim)

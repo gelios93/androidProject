@@ -8,34 +8,22 @@
     android:paddingBottom="4dp"
     android:background="@color/white">
 
-    <!--Временная замена слайдера-->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.slider.Slider
         android:id="@+id/slider"
         android:layout_width="204dp"
         android:layout_height="wrap_content"
+        android:stepSize="8"
+        android:value="16"
+        android:valueFrom="8"
+        android:valueTo="184"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnClear"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    <com.google.android.material.slider.Slider-->
-<!--        android:id="@+id/slider"-->
-<!--        android:layout_width="204dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:stepSize="8"-->
-<!--        android:value="24"-->
-<!--        android:valueFrom="8"-->
-<!--        android:valueTo="184"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/btnClear"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:tickVisible="false"-->
-<!--        tools:layout_editor_absoluteY="0dp">-->
-<!--    </com.google.android.material.slider.Slider>-->
+        app:layout_constraintTop_toTopOf="parent"
+        app:tickVisible="false"
+        tools:layout_editor_absoluteY="0dp">
+    </com.google.android.material.slider.Slider>
 
     <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/btnClear"
