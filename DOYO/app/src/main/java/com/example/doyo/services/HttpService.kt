@@ -80,24 +80,23 @@ object HttpService {
     }
 
     fun editData(context: Context, username: String = " ", icon: String = " ") : JSONObject {
+        //Для отримання доступу до SharedPreferences, де зберігається токен
         val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
         var respBody: JSONObject
-
+        //runBlocking запускає нову сопрограму(coroutine) й блокує поточний потік до його завершения
         return runBlocking {
             val htmlContent : HttpResponse = client.post("$SERVER_IP/api/editData") {
+                //Додаємо токен авторизації у заголовок запиту
                 header(HttpHeaders.Authorization, sharedPref.getString("token", "Bearer null"))
-                body = FormDataContent( // создаем параметры, которые будут переданы в form
+                body = FormDataContent( //створюємо параметри,які будуть передаватись в body
                     Parameters.build {
-                        if (icon != " ")
-                            append("icon", icon)
-                        else
-                            append("username", username)
+                        if (icon != " ") append("icon", icon)
+                        else append("username", username)
                     }
                 )
             }
-
+            //Перетворюємо відповідь у JSONObject
             respBody = getResponse(htmlContent, false)
-
             respBody
         }
     }
@@ -135,7 +134,6 @@ object HttpService {
                     }
                 )
             }
-
             respBody = getResponse(htmlContent, false)
 
             respBody

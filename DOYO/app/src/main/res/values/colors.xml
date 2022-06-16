@@ -6,6 +6,7 @@
     <color name="colorAncient">#03DAC5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#f0f0f0</color>
 
     <color name="red_palette">#FF0000</color>
     <color name="pink_palette">#FA98CB</color>
@@ -22,7 +23,7 @@
     <color name="light_orange_palette">#FEC107</color>
     <color name="orange_palette">#FF6E01</color>
     <color name="brown_palette">#754B4B</color>
-    <color name="gray_palette">#7B8B91</color>
+    <color name="gray_palette">#808080</color>
     <color name="skin_palette">#F8E8CF</color>
 
     <array name="palette">

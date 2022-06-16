@@ -1,4 +1,4 @@
-package com.example.drawingapp
+package com.example.doyo.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.EditActivity"
-    android:background="#e6e6fc">
+    android:background="#F4F4F4">
 
     <include
         android:id="@+id/paintHeader"
@@ -21,6 +21,7 @@
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintBottom_toTopOf="@+id/layoutFooter"
         app:layout_constraintTop_toBottomOf="@+id/paintHeader">
+
         <com.example.doyo.PaintView
             android:id="@+id/paintView"
             android:layout_width="match_parent"

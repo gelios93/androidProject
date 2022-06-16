@@ -31,5 +31,6 @@ object AccountService {
         animations = Gson().fromJson(account.getString("animations"), Array<String>::class.java).toMutableList()
 
     }
-
 }
+
+
