@@ -202,7 +202,6 @@ object HttpService {
         }
     }
 
-    
     private fun getResponse(response: HttpResponse, isArray: Boolean) : JSONObject  {
         val respBody: JSONObject
         val code = response.status.value
