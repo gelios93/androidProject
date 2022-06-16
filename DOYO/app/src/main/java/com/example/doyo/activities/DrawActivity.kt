@@ -7,11 +7,8 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import com.example.doyo.PaintView
-import com.example.drawingapp.ClearDialog
-import com.example.drawingapp.ColorPicker
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.example.doyo.PaintView
 import com.example.doyo.R
 import com.example.doyo.databinding.ActivityDrawBinding
 import com.example.doyo.services.SocketService
