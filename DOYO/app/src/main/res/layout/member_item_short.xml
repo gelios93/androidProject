@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="96dp"
-    android:layout_height="96dp"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
     app:cardBackgroundColor="@color/colorAncient"
-    app:cardCornerRadius="30dp"
+    app:cardCornerRadius="40dp"
     android:layout_margin="4dp"
     app:strokeWidth="5dp"
-    app:strokeColor="@android:color/black"
-    android:id="@+id/card"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/red_palette"
+    android:id="@+id/member_short_card"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +22,7 @@
         >
 
         <ImageView
-            android:id="@+id/memberAvatar"
+            android:id="@+id/member_short_avatar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
