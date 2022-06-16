@@ -1,34 +1,48 @@
 package com.example.doyo.activities
 
+import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.DELETE_ROOM
 import com.example.doyo.JOIN_ROOM
+import androidx.viewpager2.widget.ViewPager2
 import com.example.doyo.R
+import com.example.doyo.adapters.TabFragmentAdapter
 import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
 import com.example.doyo.fragments.ConfirmationDialog
 import com.example.doyo.fragments.EditNameDialog
 import com.example.doyo.models.User
+import com.example.doyo.fragments.FriendsFragment
+import com.example.doyo.fragments.GalleryFragment
+import com.example.doyo.fragments.SearchFragment
 import com.example.doyo.services.AccountService
 import com.example.doyo.services.ClosingService
 import com.example.doyo.services.HttpService
 import com.example.doyo.services.SocketService
 import com.google.gson.Gson
+import com.google.android.material.tabs.TabLayoutMediator
 import io.socket.client.Socket
 import org.json.JSONObject
 
+
 class ProfileActivity : AppCompatActivity() {
 
+    private var indicatorWidth = 0
     private lateinit var socket: Socket
+    private val list = listOf(GalleryFragment.newInstance(), FriendsFragment.newInstance(), SearchFragment.newInstance())
+    private lateinit var editLauncher: ActivityResultLauncher<EditContract.Input>
+    private val titles = listOf("GALLERY", "FRIENDS", "SEARCH")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +63,7 @@ class ProfileActivity : AppCompatActivity() {
         val binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val editLauncher = registerForActivityResult(EditContract()) {
+        editLauncher = registerForActivityResult(EditContract()) {
             when(it.result) {
                 true -> {
                     binding.icon.setImageBitmap(AccountService.icon)
@@ -58,7 +72,7 @@ class ProfileActivity : AppCompatActivity() {
                     if (AccountService.icon != null)
                         binding.icon.setImageBitmap(AccountService.icon)
                     else {
-                        val drawable = VectorDrawableCompat.create(resources, R.drawable.default_avatar, this.theme)
+                        val drawable = VectorDrawableCompat.create(resources, R.drawable.basic_icon, this.theme)
                         binding.icon.setImageBitmap(drawable?.toBitmap()!!)
                     }
                 }
@@ -123,6 +137,33 @@ class ProfileActivity : AppCompatActivity() {
             })
             editDialog.show(supportFragmentManager, "editNameDialog")
         }
+
+        val adapter = TabFragmentAdapter(this, list)
+        binding.viewPager2.adapter = adapter
+        TabLayoutMediator(binding.tab, binding.viewPager2) { tab, pos ->
+            tab.text = when (pos) {
+                0 -> titles[pos]
+                1 -> titles[pos]
+                2 -> titles[pos]
+                else -> ""
+            }
+        }.attach()
+
+        binding.tab.post{
+            indicatorWidth = binding.tab.width/3
+            val indicatorParams = binding.indicator.layoutParams
+            indicatorParams.width = indicatorWidth
+            binding.indicator.layoutParams = indicatorParams
+        }
+
+        binding.viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                val params = binding.indicator.layoutParams as FrameLayout.LayoutParams
+                val translationOffset = (positionOffset + position) * indicatorWidth
+                params.leftMargin = translationOffset.toInt()
+                binding.indicator.layoutParams = params
+            }
+        })
     }
 
     override fun onResume() {

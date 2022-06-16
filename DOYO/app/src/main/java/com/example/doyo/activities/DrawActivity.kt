@@ -1,9 +1,7 @@
 package com.example.doyo.activities
 
-import com.example.doyo.R
-
+import android.graphics.Color
 import android.os.Bundle
-import com.example.doyo.toBase64
 import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
@@ -13,10 +11,16 @@ import com.example.drawingapp.ClearDialog
 import com.example.drawingapp.ColorPicker
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.example.doyo.PaintView
+import com.example.doyo.R
 import com.example.doyo.databinding.ActivityDrawBinding
 import com.example.doyo.services.SocketService
 import com.example.doyo.toBitmap
 import org.json.JSONObject
+import com.example.doyo.toBase64
+import com.example.doyo.fragments.ClearDialog
+import com.example.doyo.fragments.ColorPicker
+
 
 class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
     lateinit var drawBinding: ActivityDrawBinding
@@ -30,6 +34,8 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
         super.onCreate(savedInstanceState)
         drawBinding = ActivityDrawBinding.inflate(layoutInflater)
         setContentView(drawBinding.root)
+
+        drawBinding.paintView.init(Color.TRANSPARENT)
 
         val clickAnim = AnimationUtils.loadAnimation(this, R.anim.anim_draw_item)
 
@@ -64,7 +70,7 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
 
         drawBinding.paintFooter.btnClear.setOnClickListener {
             it.startAnimation(clickAnim)
-            val clearDialog = ClearDialog { _, _ ->  drawBinding.paintView.clear() }
+            val clearDialog = ClearDialog("Are you sure you want to clear the canvas?") { _, _ ->  drawBinding.paintView.clear() }
             clearDialog.show(supportFragmentManager, "clearDialog")
         }
 
