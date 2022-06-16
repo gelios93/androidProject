@@ -4,17 +4,25 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.example.doyo.DELETE_ROOM
+import com.example.doyo.JOIN_ROOM
 import com.example.doyo.R
 import com.example.doyo.contracts.EditContract
 import com.example.doyo.databinding.ActivityProfileBinding
+import com.example.doyo.fragments.ConfirmationDialog
 import com.example.doyo.fragments.EditNameDialog
+import com.example.doyo.models.User
 import com.example.doyo.services.AccountService
+import com.example.doyo.services.ClosingService
 import com.example.doyo.services.HttpService
 import com.example.doyo.services.SocketService
+import com.google.gson.Gson
 import io.socket.client.Socket
 import org.json.JSONObject
 
@@ -34,13 +42,9 @@ class ProfileActivity : AppCompatActivity() {
 
         socket = SocketService.socket
         socket.connect()
-        socket.on("connect") {
-            println(socket.id())
-            socket.on("hello") { args ->
-                println(args[0])
-            }
-            socket.emit("hello", "Боже..........................")
-        }
+
+        val closingService = Intent(this, ClosingService::class.java)
+        startService(closingService)
 
         val binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -93,13 +97,6 @@ class ProfileActivity : AppCompatActivity() {
             socket.emit("init", args)
         }
 
-        socket.on("init") { body ->
-            val intent = Intent(this, RoomActivity::class.java).apply {
-                putExtra("data", body[0].toString())
-            }
-            startActivity(intent)
-        }
-
         binding.icon.setOnClickListener {
             editLauncher.launch(EditContract.Input("edit"))
         }
@@ -128,10 +125,43 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        socket.disconnect()
-        println("Socket disconnected!")
-        super.onDestroy()
+    override fun onResume() {
+        super.onResume()
+        socket.off()
+        socket.on("connect") {
+            println(socket.id())
+            socket.on("hello") { args ->
+                println(args[0])
+            }
+            socket.emit("hello", "Боже..........................")
+        }
+        socket.on("init") { body ->
+            val intent = Intent(this, RoomActivity::class.java).apply {
+                putExtra("data", body[0].toString())
+            }
+            startActivity(intent)
+        }
+        socket.on("friendRequest") { arg ->
+            println("friendRequest")
+            val newRequest = Gson().fromJson(arg[0].toString(), User::class.java)
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(this, "${newRequest.username} has sent you request", Toast.LENGTH_SHORT).show()
+            }
+            //ADD REQUEST TO LIST AND UPDATE ADAPTER
+        }
+        socket.on("friendInvite") { name ->
+            println("friendInvite")
+            val dialog = ConfirmationDialog(JOIN_ROOM, name[0].toString())
+            Handler(Looper.getMainLooper()).post {
+                dialog.show(supportFragmentManager, "joinRoomDialog")
+            }
+        }
     }
+
+//    override fun onDestroy() {
+//        socket.disconnect()
+//        println("Socket disconnected!")
+//        super.onDestroy()
+//    }
 
 }

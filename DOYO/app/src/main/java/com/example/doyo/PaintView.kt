@@ -137,4 +137,13 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         invalidate()
     }
 
+    fun whiteBackgroundBitmap(): Bitmap {
+        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val newCanvas = Canvas(newBitmap)
+        newCanvas.drawColor(Color.WHITE)
+        newCanvas.drawBitmap(bitmap, 0f, 0f, null)
+        return newBitmap
+    }
+
+
 }

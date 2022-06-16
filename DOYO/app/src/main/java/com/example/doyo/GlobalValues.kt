@@ -9,6 +9,11 @@ import java.util.regex.Pattern
 const val SERVER_IP = "http://34.147.15.234"
 val INPUT_PATTERN: Pattern = Pattern.compile("^[A-Za-z0-9]+\$")
 
+const val FRIEND_REQUEST = "Friend request"
+const val DELETE_ROOM = "Delete room"
+const val LEAVE_ROOM = "Leave room"
+const val DELETE_PLAYER = "Delete player"
+const val JOIN_ROOM = "Join room"
 
 data class ValidationResult(val result: Boolean, val error: String? = null)
 
