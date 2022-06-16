@@ -4,8 +4,8 @@ import android.graphics.Color
 import android.os.Bundle
 import com.example.doyo.R
 import com.example.doyo.PaintView
-import com.example.drawingapp.ClearDialog
-import com.example.drawingapp.ColorPicker
+import com.example.doyo.fragments.ClearDialog
+import com.example.doyo.fragments.ColorPicker
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +48,7 @@ class EditActivity: AppCompatActivity(), ColorPicker.ColorPickerListener {
 
         editBinding.paintFooter.btnClear.setOnClickListener {
             it.startAnimation(clickAnim)
-            val clearDialog = ClearDialog { _, _ ->  editBinding.paintView.clear() }
+            val clearDialog = ClearDialog("Are you sure you want to clear the canvas?") { _, _ ->  editBinding.paintView.clear() }
             clearDialog.show(supportFragmentManager, "clearDialog")
         }
 

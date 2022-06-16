@@ -1,14 +1,11 @@
 package com.example.doyo.activities
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.doyo.R
 import com.example.doyo.adapters.MemberListAdapter
 import com.example.doyo.adapters.MessageListAdapter
 import com.example.doyo.databinding.ActivityRoomBinding

@@ -1,11 +1,16 @@
 package com.example.doyo
 
-import kotlin.math.abs
-import android.view.View
-import android.graphics.*
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
-import android.view.MotionEvent
+import android.graphics.*
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
+import kotlin.math.abs
+
 
 class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -17,7 +22,6 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         paint.strokeWidth = 16f
         paint.isAntiAlias = true //make brush smooth
     }
-
 
     companion object {
         lateinit var bitmap: Bitmap
@@ -129,7 +133,7 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         eraseColor = color
         paint.color = Color.BLACK
         paint.strokeWidth = 16f
-        pathList = ArrayList()
+        pathList.clear()
         path = Path()
         xValue = 0f
         yValue = 0f
@@ -137,4 +141,11 @@ class PaintView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         invalidate()
     }
 
+    fun whiteBackgroundBitmap(): Bitmap {
+        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        val newCanvas = Canvas(newBitmap)
+        newCanvas.drawColor(Color.YELLOW)
+        newCanvas.drawBitmap(bitmap, 0f, 0f, null)
+        return newBitmap
+    }
 }
