@@ -20,12 +20,12 @@ import com.example.doyo.fragments.ColorPicker
 
 
 class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
-    lateinit var drawBinding: ActivityDrawBinding
+    private lateinit var drawBinding: ActivityDrawBinding
 
-    val socket = SocketService.socket
-    var stage = 0
+    private val socket = SocketService.socket
+    private var stage = 0
 
-    lateinit var timer: CountDownTimer
+    private lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,9 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
 
         val time = intent.getLongExtra("time", 0)
         println("TIME: $time")
+        val frames = intent.getIntExtra("frames", 0)
+        println("FRAMES: $frames")
+
         timer = object: CountDownTimer(time*1000, 1000) {
             override fun onTick(time: Long) {
                 val minutes = time / 1000 / 60
@@ -74,9 +77,13 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
         drawBinding.paintHeader.btnFinish.setOnClickListener {
             it.startAnimation(clickAnim)
             sendFrame()
+            drawBinding.paintHeader.btnFinish.isClickable = false
+            drawBinding.paintHeader.btnFinish.textSize = 12f
+            drawBinding.paintHeader.btnFinish.text = "Waiting for others"
         }
 
         startTimer()
+        drawBinding.paintHeader.stage.text = "${stage+1}/$frames"
 
         socket.on("next") { data ->
             Handler(Looper.getMainLooper()).post {
@@ -86,8 +93,12 @@ class DrawActivity : AppCompatActivity(), ColorPicker.ColorPickerListener {
                 drawBinding.backgroundImage.visibility = View.VISIBLE
                 startTimer()
                 stage++
+                drawBinding.paintHeader.btnFinish.isClickable = true
+                drawBinding.paintHeader.btnFinish.text = "FINISH"
+                drawBinding.paintHeader.stage.text = "${stage+1}/$frames"
             }
         }
+
         socket.on("finish") {
             Handler(Looper.getMainLooper()).post {
                 stage = 0

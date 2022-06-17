@@ -11,7 +11,7 @@ import com.example.doyo.services.AccountService
 import com.example.doyo.services.SocketService
 import org.json.JSONObject
 
-class ConfirmationDialog(private val title: String, private val username: String = ""): DialogFragment()  {
+class ConfirmationDialog(private val title: String, private val username: String = "", private val room: String = ""): DialogFragment()  {
 
     private val socket = SocketService.socket
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -24,7 +24,7 @@ class ConfirmationDialog(private val title: String, private val username: String
                     DELETE_PLAYER -> "Do you want to delete player $username from room?"
                     DELETE_ROOM -> "Do you want to delete room?"
                     LEAVE_ROOM -> "Do you want to leave room?"
-                    JOIN_ROOM -> "You have been invited to the room. Do you want to join?"
+                    JOIN_ROOM -> "$username has invited you to the room. Do you want to join?"
                     else -> "Error"
                 })
                 .setPositiveButton("YES") { dialog, _ ->
@@ -42,7 +42,7 @@ class ConfirmationDialog(private val title: String, private val username: String
                             socket.emit("leave", AccountService.username)
                         }
                         JOIN_ROOM -> {
-                            socket.emit("joinRoom", username)
+                            socket.emit("joinRoom", room)
                             socket.emit("friendInviteResponse", "yes")
                         }
                     }

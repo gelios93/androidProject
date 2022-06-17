@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -44,6 +45,7 @@ class ProfileActivity : AppCompatActivity() {
     private val list = listOf(GalleryFragment.newInstance(), FriendsFragment.newInstance(), SearchFragment.newInstance())
     private lateinit var editLauncher: ActivityResultLauncher<EditContract.Input>
     private val titles = listOf("GALLERY", "FRIENDS", "SEARCH")
+    private var isResume = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,11 +77,15 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        socket.on("friendInvite") { name ->
+        socket.on("friendInvite") { body ->
             println("friendInvite")
-            val dialog = ConfirmationDialog(JOIN_ROOM, name[0].toString())
-            Handler(Looper.getMainLooper()).post {
-                dialog.show(supportFragmentManager, "joinRoomDialog")
+            val data = JSONObject(body[0].toString())
+            println(data.toString(2))
+            if (isResume) {
+                val dialog = ConfirmationDialog(JOIN_ROOM, data.getString("username"), data.getString("room"))
+                Handler(Looper.getMainLooper()).post {
+                    dialog.show(supportFragmentManager, "joinRoomDialog")
+                }
             }
         }
 
@@ -190,5 +196,21 @@ class ProfileActivity : AppCompatActivity() {
                 binding.indicator.layoutParams = params
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isResume = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isResume = false
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        socket.disconnect()
+        Log.d("socket", "Socket disconnected!")
     }
 }

@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/stage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1/3"
@@ -34,11 +34,13 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnFinish"
-        android:layout_width="88dp"
+        android:layout_width="wrap_content"
         android:layout_height="54dp"
         android:text="FINISH"
         android:textColor="@color/black"
         android:backgroundTint="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

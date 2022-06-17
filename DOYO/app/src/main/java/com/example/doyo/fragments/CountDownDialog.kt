@@ -13,7 +13,7 @@ import com.example.doyo.activities.RoomActivity
 import com.example.doyo.databinding.DialogCountDownBinding
 import com.example.doyo.services.SocketService
 
-class CountDownDialog(private val time: Int): DialogFragment() {
+class CountDownDialog(private val time: Int, private val frames: Int): DialogFragment() {
 
     private lateinit var countingNumber: TextView
 
@@ -34,6 +34,7 @@ class CountDownDialog(private val time: Int): DialogFragment() {
                     dialog?.dismiss()
                     val intent = Intent(context, DrawActivity::class.java).apply {
                         putExtra("time", time.toLong())
+                        putExtra("frames", frames)
                     }
                     startActivity(intent)
 //                    (context as RoomActivity).finish()

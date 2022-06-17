@@ -405,7 +405,7 @@ class RoomActivity : AppCompatActivity() {
 
         socket.on("start") {
             println("start")
-            val dialog = CountDownDialog(time)
+            val dialog = CountDownDialog(time, frames)
             Handler(Looper.getMainLooper()).post {
                 dialog.show(supportFragmentManager, "countDialog")
             }
