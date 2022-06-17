@@ -21,6 +21,7 @@ import com.example.doyo.TopSheetBehavior
 import com.example.doyo.adapters.MemberListLongAdapter
 import com.example.doyo.adapters.MemberListShortAdapter
 import com.example.doyo.adapters.MessageListAdapter
+import com.example.doyo.contracts.ProfileContract
 import com.example.doyo.databinding.RoomCoordinatorBinding
 import com.example.doyo.fragments.ConfirmationDialog
 import com.example.doyo.fragments.CountDownDialog
@@ -269,7 +270,14 @@ class RoomActivity : AppCompatActivity() {
         membersListShort.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         membersShortAdapter.submitList(members.toList())
 
-        val membersLongAdapter = MemberListLongAdapter(layoutInflater, supportFragmentManager)
+        val membersLongAdapter = MemberListLongAdapter(layoutInflater, supportFragmentManager, null)
+        val profileLauncher = registerForActivityResult(ProfileContract()){}
+        val onItemClickListener = object: MemberListLongAdapter.OnItemClickListener{
+            override fun onClickMember(user: User) {
+                profileLauncher.launch(ProfileContract.Input(user))
+            }
+        }
+        membersLongAdapter.listener = onItemClickListener
         membersListLong.adapter = membersLongAdapter
         membersListShort.setHasFixedSize(true)
         membersListLong.layoutManager = LinearLayoutManager(this)

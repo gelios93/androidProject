@@ -42,7 +42,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private var indicatorWidth = 0
     private lateinit var socket: Socket
-    private val list = listOf(GalleryFragment.newInstance(), FriendsFragment.newInstance(), SearchFragment.newInstance())
+    private val list = listOf(GalleryFragment.newInstance(AccountService.animations), FriendsFragment.newInstance(), SearchFragment.newInstance())
     private lateinit var editLauncher: ActivityResultLauncher<EditContract.Input>
     private val titles = listOf("GALLERY", "FRIENDS", "SEARCH")
     private var isResume = false

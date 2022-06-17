@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
@@ -27,6 +28,7 @@ class FriendsListAdapter(private val inflater: LayoutInflater,
         fun onDeleteClick(position: Int)
         fun onAcceptClick(position: Int)
         fun onRefuseClick(position: Int)
+        fun onCardClick(user: User)
     }
 
     inner class ViewHolder(view: View, parentContext: Context): RecyclerView.ViewHolder(view){
@@ -36,6 +38,8 @@ class FriendsListAdapter(private val inflater: LayoutInflater,
         private val btnDelete = view.findViewById<ImageButton>(R.id.btnDeleteFriend)
         private val btnAccept = view.findViewById<AppCompatImageView>(R.id.btnAccept)
         private val btnRefuse = view.findViewById<AppCompatImageView>(R.id.btnRefuse)
+        private val cardViewRequest = view.findViewById<CardView>(R.id.requestCardView)
+        private val cardViewFriend = view.findViewById<CardView>(R.id.friendCardView)
 
         private val context = parentContext
         private val clickAnim = AnimationUtils.loadAnimation(parentContext, R.anim.anim_draw_item)
@@ -51,6 +55,12 @@ class FriendsListAdapter(private val inflater: LayoutInflater,
             username.text = user.username
             exp.text = "exp ${user.experience}"
 
+            cardViewFriend?.setOnClickListener {
+                listener?.onCardClick(user)
+            }
+            cardViewRequest?.setOnClickListener {
+                listener?.onCardClick(user)
+            }
             btnDelete?.setOnClickListener {
                 it.startAnimation(clickAnim)
                 listener?.onDeleteClick(users.indexOf(user))

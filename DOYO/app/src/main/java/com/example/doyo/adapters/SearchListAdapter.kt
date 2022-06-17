@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +17,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.R
 import com.example.doyo.SERVER_IP
 import com.example.doyo.fragments.SearchFragment
+import com.example.doyo.models.User
 import com.squareup.picasso.Picasso
 
 class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnItemClickListener?):
@@ -23,6 +25,7 @@ class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnIt
 
     interface OnItemClickListener{
         fun onRequestClick(position: Int): Boolean
+        fun onItemClick(user: User)
     }
 
     inner class ViewHolder(view: View, parentContext: Context): RecyclerView.ViewHolder(view){
@@ -30,6 +33,7 @@ class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnIt
         private val username = view.findViewById<TextView>(R.id.usernameSearch)
         private val exp = view.findViewById<TextView>(R.id.expSearch)
         private val button = view.findViewById<ImageView>(R.id.btnRequest)
+        private val container = view.findViewById<CardView>(R.id.searchCardView)
 
         private val context = parentContext
         private val clickAnim = AnimationUtils.loadAnimation(parentContext, R.anim.anim_draw_item)
@@ -47,6 +51,10 @@ class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnIt
 
             username.text = item.user.username
             exp.text = "exp ${item.user.experience}"
+
+            container.setOnClickListener {
+                listener?.onItemClick(item.user)
+            }
 
             if (item.isFriend) {
                 button.isEnabled = false

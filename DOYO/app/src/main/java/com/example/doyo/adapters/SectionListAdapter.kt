@@ -21,6 +21,7 @@ class SectionListAdapter(private val inflater: LayoutInflater,
         fun deleteFriend(username: String): Boolean
         fun acceptRequest(username: String): Boolean
         fun refuseRequest(username: String): Boolean
+        fun openProfile(user: User)
     }
     inner class ViewHolder(view: View, parentContext: Context): RecyclerView.ViewHolder(view){
         private val recyclerView = view.findViewById<RecyclerView>(R.id.rvItems)
@@ -71,6 +72,10 @@ class SectionListAdapter(private val inflater: LayoutInflater,
                         }
                         else adapter.notifyItemRemoved(position)
                     }
+                }
+
+                override fun onCardClick(user: User) {
+                    listener?.openProfile(user)
                 }
             }
             adapter.listener = onClickListener

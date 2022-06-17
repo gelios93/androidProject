@@ -9,26 +9,49 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.R
 import com.example.doyo.SERVER_IP
 import com.example.doyo.databinding.ActivityUserBinding
+import com.example.doyo.fragments.GalleryFragment
 import com.example.doyo.fragments.SearchFragment
 import com.example.doyo.models.User
 import com.example.doyo.services.AccountService
 import com.example.doyo.services.HttpService
+import com.example.doyo.services.SocketService
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import org.json.JSONArray
+import org.json.JSONObject
 
 class UserActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
     private lateinit var user: User
+    private lateinit var animations: List<String>
 
     override fun onCreate(
         savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        //user = intent?.extras?.get("user").toString()
-        //if (AccountService.friends.contains(user))
-        //        binding.btnSendRequest.isEnabled=false
+        val jsonUser = intent?.extras?.get("user").toString()
+        user = Gson().fromJson(jsonUser, User::class.java)
+
+        if (AccountService.friends.contains(user)) {
+            print("IS FRIEND")
+            binding.btnSendRequest.isEnabled = false
+        }
+
+        SocketService.socket.emit("userInfo", user.username)
+        SocketService.socket.on("userInfo") {data ->
+            println("SOCKET ON")
+            println(data[0].toString())
+            if (data.isNotEmpty()) {
+                val arrayString = JSONArray(data[0].toString()).toString()
+                animations = (Gson().fromJson(arrayString, Array<String>::class.java)).toList()
+                println(animations)
+            }
+            else
+                animations = listOf()
+            supportFragmentManager.beginTransaction().add(R.id.fragmentContainerView, GalleryFragment.newInstance(animations)).commit()
+        }
 
         binding.btnSendRequest.isEnabled = true
         binding.username.text = user.username
@@ -52,7 +75,25 @@ class UserActivity: AppCompatActivity() {
                     Toast.makeText(this, "Friend request is sent!", Toast.LENGTH_SHORT).show()
                     binding.btnSendRequest.isEnabled = false
                 }
-            Toast.makeText(this, "Error while sending request", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "Error while sending request", Toast.LENGTH_SHORT).show()
         }
+
+        binding.btnToMenu.setOnClickListener {
+            setResult(RESULT_OK)
+            finish()
+        }
+
+        setContentView(binding.root)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        SocketService.socket.off("userInfo")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finish()
     }
 }

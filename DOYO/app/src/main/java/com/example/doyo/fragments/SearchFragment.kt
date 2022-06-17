@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.doyo.adapters.SearchListAdapter
+import com.example.doyo.contracts.ProfileContract
 import com.example.doyo.databinding.FragmentSearchBinding
 import com.example.doyo.models.User
 import com.example.doyo.services.AccountService
@@ -29,27 +30,17 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
     ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater, container, false)
         val clickAnim = AnimationUtils.loadAnimation(context, R.anim.anim_draw_item)
+        val profileLauncher = registerForActivityResult(ProfileContract()){}
 
         val adapter = SearchListAdapter(layoutInflater, null)
         adapter.listener = object: SearchListAdapter.OnItemClickListener {
             override fun onRequestClick(position: Int): Boolean {
                 SocketService.socket.emit("friendRequest", listResult[position].user.username)
                 return true
-//                val response = context?.let { it -> HttpService.sendRequest(it, listResult[position].user.username) }
-//                println(listResult[position].user.username)
-//                println(response.toString())
-//                if (response?.has("code") == true)
-//                    if (response.get("code") == 400) {
-//                        Toast.makeText(context, response.get("message").toString(), Toast.LENGTH_SHORT).show()
-//                        return true
-//                    }
-//                if (response?.has("message") == true)
-//                    if (response.get("message") == "success") {
-//                        Toast.makeText(context, "Friend request is sent!", Toast.LENGTH_SHORT).show()
-//                        return true
-//                    }
-//                Toast.makeText(context, "Error while sending request", Toast.LENGTH_SHORT).show()
-//                return false
+            }
+
+            override fun onItemClick(user: User) {
+                profileLauncher.launch(ProfileContract.Input(user))
             }
         }
 

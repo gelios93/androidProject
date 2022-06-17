@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,11 +19,11 @@ import com.google.android.material.card.MaterialCardView
 import com.squareup.picasso.Picasso
 
 class MemberListLongAdapter (
-    private val inflater: LayoutInflater,var supportFragmentManager: FragmentManager):
+    private val inflater: LayoutInflater,var supportFragmentManager: FragmentManager, var listener: OnItemClickListener?):
     ListAdapter<User, MemberListLongAdapter.ViewHolder>(FriendDiffCallback()){
 
     interface OnItemClickListener{
-        fun onDeleteClick(position: Int)
+        fun onClickMember(user:User)
     }
 
     inner class ViewHolder(
@@ -32,6 +33,7 @@ class MemberListLongAdapter (
 
         private val icon = view.findViewById<ImageView>(R.id.member_long_avatar)
         private val card = view.findViewById<MaterialCardView>(R.id.member_long_card)
+        private val container = view.findViewById<ConstraintLayout>(R.id.member_long_item)
         private val username = view.findViewById<TextView>(R.id.member_long_name)
         private val deleteButton = view.findViewById<ImageButton>(R.id.member_long_deleteButton)
         private val addButton = view.findViewById<ImageButton>(R.id.member_long_addButton)
@@ -74,6 +76,9 @@ class MemberListLongAdapter (
                 else {
                     addButton.setImageResource(R.drawable.already_friend)
                     addButton.isClickable = false
+                }
+                container.setOnClickListener {
+                    listener?.onClickMember(user)
                 }
             }
             else {

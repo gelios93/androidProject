@@ -47,7 +47,6 @@ class FriendsFragment: Fragment(R.layout.fragment_friends) {
         }
 
         val adapter = SectionListAdapter(inflater, sections, null)
-        println("ADAPTER")
 
         val actionListener = object: SectionListAdapter.ActionListener {
             override fun deleteFriend(username: String): Boolean {
@@ -92,13 +91,14 @@ class FriendsFragment: Fragment(R.layout.fragment_friends) {
                 Toast.makeText(context, "Error while canceling request", Toast.LENGTH_SHORT).show()
                 return false
             }
+
+            override fun openProfile(user: User) {
+                profileLauncher.launch(ProfileContract.Input(user))
+            }
         }
 
         adapter.listener = actionListener
         binding.rvSections.adapter = adapter
-//        val manager = LinearLayoutManager(context)
-//        manager.stackFromEnd = true
-//        binding.rvSections.layoutManager = manager
         binding.rvSections.layoutManager = LinearLayoutManager(context)
 
         SocketService.socket.on("friendRequest") { arg ->
@@ -125,7 +125,6 @@ class FriendsFragment: Fragment(R.layout.fragment_friends) {
                 println(AccountService.requests)
             }
         }
-
         return binding.root
     }
 

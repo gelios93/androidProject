@@ -49,6 +49,7 @@ object HttpService {
                 SocketService.initSocket(respBody.getString("accessToken"))
                 SocketService.socket.connect()
                 AccountService.initAccount(respBody)
+                println(respBody.toString(2))
                 respBody
             }
         }
