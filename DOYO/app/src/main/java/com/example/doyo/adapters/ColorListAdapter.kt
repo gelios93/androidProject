@@ -40,7 +40,7 @@ class ColorListAdapter(private val colors: Array<Int>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = inflater.inflate(R.layout.color_item, parent, false)
+        val view = inflater.inflate(R.layout.item_color, parent, false)
         return ViewHolder(view)
     }
 

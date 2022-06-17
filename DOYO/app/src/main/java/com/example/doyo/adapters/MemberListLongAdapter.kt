@@ -1,21 +1,16 @@
 package com.example.doyo.adapters
 
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.doyo.*
-import com.example.doyo.activities.RoomActivity
 import com.example.doyo.fragments.ConfirmationDialog
 import com.example.doyo.models.User
 import com.example.doyo.services.AccountService
@@ -110,7 +105,7 @@ class MemberListLongAdapter (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberListLongAdapter.ViewHolder {
-        val view = inflater.inflate(R.layout.member_item_long, parent, false)
+        val view = inflater.inflate(R.layout.item_member_long, parent, false)
         return ViewHolder(view)
     }
 

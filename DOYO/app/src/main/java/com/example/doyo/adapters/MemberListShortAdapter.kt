@@ -37,7 +37,7 @@ class MemberListShortAdapter (
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = inflater.inflate(R.layout.member_item_short, parent, false)
+        val view = inflater.inflate(R.layout.item_member_short, parent, false)
         return ViewHolder(view)
     }
 

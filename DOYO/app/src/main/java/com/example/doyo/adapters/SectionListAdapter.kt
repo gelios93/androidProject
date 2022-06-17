@@ -80,7 +80,7 @@ class SectionListAdapter(private val inflater: LayoutInflater,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = inflater.inflate(R.layout.section_item, parent, false)
+        val view = inflater.inflate(R.layout.item_section, parent, false)
         return ViewHolder(view, parent.context)
     }
 

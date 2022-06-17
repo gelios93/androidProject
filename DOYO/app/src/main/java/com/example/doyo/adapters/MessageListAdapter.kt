@@ -1,14 +1,9 @@
 package com.example.doyo.adapters
 
-import android.R.id.message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.doyo.R
 import com.example.doyo.models.Message
@@ -20,8 +15,8 @@ class MessageListAdapter(
     private val inflater: LayoutInflater, private val messages: MutableList<Message>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val VIEW_I = R.layout.i_message
-    private val VIEW_OTHER = R.layout.other_message
+    private val VIEW_I = R.layout.item_message_i
+    private val VIEW_OTHER = R.layout.item_message_other
 
     inner class IMessageHolder(
         view: View

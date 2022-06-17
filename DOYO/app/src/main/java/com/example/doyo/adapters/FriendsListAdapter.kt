@@ -1,6 +1,5 @@
 package com.example.doyo.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.example.doyo.R
 import com.example.doyo.SERVER_IP
-import com.example.doyo.fragments.FriendsFragment
 import com.example.doyo.models.User
 import com.squareup.picasso.Picasso
 
@@ -72,9 +68,9 @@ class FriendsListAdapter(private val inflater: LayoutInflater,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = if (type == "requests")
-            inflater.inflate(R.layout.request_item, parent, false)
+            inflater.inflate(R.layout.item_request, parent, false)
         else
-            inflater.inflate(R.layout.friend_item, parent, false)
+            inflater.inflate(R.layout.item_friend, parent, false)
         return ViewHolder(view, parent.context)
     }
 

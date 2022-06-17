@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        tools:listitem="@layout/search_item"/>
+        tools:listitem="@layout/item_search"/>
 
     <RelativeLayout
         android:id="@+id/btnSearch"
