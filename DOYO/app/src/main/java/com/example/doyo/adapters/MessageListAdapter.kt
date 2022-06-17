@@ -1,25 +1,43 @@
 package com.example.doyo.adapters
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.media.MediaScannerConnection
+import android.net.Uri
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.doyo.R
 import com.example.doyo.SERVER_IP
 import com.example.doyo.models.Message
 import com.example.doyo.services.AccountService
+import com.example.doyo.services.SocketService
 import com.google.android.material.card.MaterialCardView
 import pl.droidsonroids.gif.GifImageView
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.ByteBuffer
 
 
 class MessageListAdapter(
-    private val inflater: LayoutInflater, private val messages: MutableList<Message>, private val context: Context) :
+    private val inflater: LayoutInflater,
+    private val messages: MutableList<Message>,
+    private val context: Context
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_I = R.layout.item_message_i
@@ -87,11 +105,18 @@ class MessageListAdapter(
                 .into(gif)
 
             addButton.setOnClickListener {
-
+                SocketService.socket.emit("addGif", message.value)
+                Toast.makeText(context, "Gif has been added to your profile", Toast.LENGTH_SHORT).show()
+                addButton.isClickable = false
+                addButton.text = "ADDED"
+                AccountService.animations.add(message.value)
             }
 
             downloadButton.setOnClickListener {
-                
+                saveGifToGallery(message.value, gif)
+                Toast.makeText(context, "Gif has been saved in your storage", Toast.LENGTH_SHORT).show()
+                downloadButton.isClickable = false
+                downloadButton.text = "DOWNLOADED"
             }
         }
 
@@ -131,4 +156,38 @@ class MessageListAdapter(
     }
 
     override fun getItemCount(): Int = messages.size
+
+    fun saveGifToGallery(gifName: String, gifView: GifImageView){
+
+        val directory = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "Doyo"
+        )
+
+        if (!directory.exists()) {
+            println("not exist")
+            directory.mkdir()
+        }
+
+        val file = File(directory, gifName)
+
+        val byteBuffer = (gifView.drawable as GifDrawable).buffer
+
+        try {
+            val fos = FileOutputStream(file)
+
+            val bytes = ByteArray(byteBuffer.capacity())
+            (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
+
+            fos.write(bytes,0, bytes.size)
+            fos.flush()
+            fos.close()
+        } catch (ioe: IOException) {
+            ioe.printStackTrace()
+        }
+
+        MediaScannerConnection.scanFile(context, arrayOf(Uri.fromFile(file).toString()), null, null)
+
+
+    }
 }

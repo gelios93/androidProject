@@ -384,8 +384,6 @@ class RoomActivity : AppCompatActivity() {
             val minutes = if (date.minutes < 10) "0${date.minutes}" else date.minutes
             val hours = date.hours
 
-            println(members.find { user -> user.username == newMessage.getString("username") })
-
             messages.add(Message(newMessage.getString("value"),
                 members.find { user -> user.username == newMessage.getString("username") },
                 "$hours:$minutes"))
