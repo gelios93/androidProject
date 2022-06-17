@@ -13,6 +13,7 @@ import com.example.doyo.activities.LoginActivity
 import com.example.doyo.activities.ProfileActivity
 import com.example.doyo.databinding.FragmentSigninBinding
 import com.example.doyo.services.HttpService
+import com.example.doyo.services.SocketService
 
 class SignInFragment : Fragment(R.layout.fragment_signin) {
 
@@ -73,9 +74,8 @@ class SignInFragment : Fragment(R.layout.fragment_signin) {
                 Toast.makeText(parentActivity, body.get("message").toString(), Toast.LENGTH_SHORT).show()
             }
             else {
-                val intent = Intent(parentActivity, ProfileActivity::class.java).apply {
-                    putExtra("data", body.toString())
-                }
+                SocketService.socket.off()
+                val intent = Intent(parentActivity, ProfileActivity::class.java)
                 startActivity(intent)
                 parentActivity.finish()
             }

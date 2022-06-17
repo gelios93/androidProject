@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.RoomActivity" android:windowSoftInputMode="stateHidden|adjustPan"/><!--adjustResize, adjustNothing-->
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +23,7 @@
         </activity>
         <activity android:name=".activities.ProfileActivity"></activity>
         <activity android:name=".activities.DrawActivity"></activity>
+            <activity android:name=".activities.UserActivity"></activity>
         <activity android:name=".activities.EditActivity"></activity>
         <activity android:name=".activities.Coordinator" android:windowSoftInputMode="stateHidden|adjustPan"></activity>
 

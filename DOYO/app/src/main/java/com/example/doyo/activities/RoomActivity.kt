@@ -1,5 +1,6 @@
 package com.example.doyo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -286,6 +287,8 @@ class RoomActivity : AppCompatActivity() {
             Handler(Looper.getMainLooper()).post {
                 socket.emit("leaveRoom")
                 Toast.makeText(this, "Room has been deleted", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
                 finish()
             }
         }
@@ -295,6 +298,8 @@ class RoomActivity : AppCompatActivity() {
                 socket.emit("leaveRoom")
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(this, "You have left the room", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }
@@ -316,6 +321,8 @@ class RoomActivity : AppCompatActivity() {
                 socket.emit("leaveRoom")
                 Handler(Looper.getMainLooper()).post {
                     Toast.makeText(this, "You have been kicked by host", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }
@@ -433,6 +440,10 @@ class RoomActivity : AppCompatActivity() {
             timeText.text = time.toString()
             framesText.text = frames.toString()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 

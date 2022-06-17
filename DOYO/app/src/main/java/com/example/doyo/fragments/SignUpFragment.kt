@@ -74,9 +74,7 @@ class SignUpFragment : Fragment(R.layout.fragment_signup) {
                     else
                         Toast.makeText(parentActivity, body.get("message").toString(), Toast.LENGTH_SHORT).show()
                 } else {
-                    val intent = Intent(parentActivity, ProfileActivity::class.java).apply {
-                        putExtra("data", body.toString())
-                    }
+                    val intent = Intent(parentActivity, ProfileActivity::class.java)
                     startActivity(intent)
                     parentActivity.finish()
                 }

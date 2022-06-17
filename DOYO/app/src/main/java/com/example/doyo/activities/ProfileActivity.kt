@@ -19,6 +19,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.doyo.R
 import com.example.doyo.adapters.TabFragmentAdapter
 import com.example.doyo.contracts.EditContract
+import com.example.doyo.contracts.ProfileContract
 import com.example.doyo.databinding.ActivityProfileBinding
 import com.example.doyo.fragments.ConfirmationDialog
 import com.example.doyo.fragments.EditNameDialog
@@ -48,14 +49,39 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //Less.
 
-        val respBody = JSONObject(intent.getStringExtra("data")!!)
-        println(respBody.toString(2))
+//        if(intent.hasExtra("data"))
+//            val respBody = JSONObject(intent.getStringExtra("data")!!)
+//        else
 
-        AccountService.initAccount(respBody)
-        SocketService.initSocket(respBody.getString("accessToken"))
+//        println(respBody.toString(2))
+
+        //AccountService.initAccount(respBody)
+        //SocketService.initSocket(respBody.getString("accessToken"))
 
         socket = SocketService.socket
-        socket.connect()
+//        socket.connect()
+        socket.off()
+        socket.on("connect") {
+            println(socket.id())
+            socket.on("hello") { args ->
+                println(args[0])
+            }
+            socket.emit("hello", "Боже..........................")
+        }
+        socket.on("init") { body ->
+            val intent = Intent(this, RoomActivity::class.java).apply {
+                putExtra("data", body[0].toString())
+            }
+            startActivity(intent)
+            finish()
+        }
+        socket.on("friendInvite") { name ->
+            println("friendInvite")
+            val dialog = ConfirmationDialog(JOIN_ROOM, name[0].toString())
+            Handler(Looper.getMainLooper()).post {
+                dialog.show(supportFragmentManager, "joinRoomDialog")
+            }
+        }
 
         val closingService = Intent(this, ClosingService::class.java)
         startService(closingService)
@@ -165,44 +191,4 @@ class ProfileActivity : AppCompatActivity() {
             }
         })
     }
-
-    override fun onResume() {
-        super.onResume()
-        socket.off()
-        socket.on("connect") {
-            println(socket.id())
-            socket.on("hello") { args ->
-                println(args[0])
-            }
-            socket.emit("hello", "Боже..........................")
-        }
-        socket.on("init") { body ->
-            val intent = Intent(this, RoomActivity::class.java).apply {
-                putExtra("data", body[0].toString())
-            }
-            startActivity(intent)
-        }
-        socket.on("friendRequest") { arg ->
-            println("friendRequest")
-            val newRequest = Gson().fromJson(arg[0].toString(), User::class.java)
-            Handler(Looper.getMainLooper()).post {
-                Toast.makeText(this, "${newRequest.username} has sent you request", Toast.LENGTH_SHORT).show()
-            }
-            //ADD REQUEST TO LIST AND UPDATE ADAPTER
-        }
-        socket.on("friendInvite") { name ->
-            println("friendInvite")
-            val dialog = ConfirmationDialog(JOIN_ROOM, name[0].toString())
-            Handler(Looper.getMainLooper()).post {
-                dialog.show(supportFragmentManager, "joinRoomDialog")
-            }
-        }
-    }
-
-//    override fun onDestroy() {
-//        socket.disconnect()
-//        println("Socket disconnected!")
-//        super.onDestroy()
-//    }
-
 }

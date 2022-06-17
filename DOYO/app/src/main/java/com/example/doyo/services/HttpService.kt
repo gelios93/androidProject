@@ -46,7 +46,9 @@ object HttpService {
                 if (!respBody.has("code")){
                     sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
                 }
-
+                SocketService.initSocket(respBody.getString("accessToken"))
+                SocketService.socket.connect()
+                AccountService.initAccount(respBody)
                 respBody
             }
         }
