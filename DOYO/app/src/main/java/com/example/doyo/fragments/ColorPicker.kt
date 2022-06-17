@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.doyo.R
 import com.example.doyo.adapters.ColorListAdapter
-import com.example.doyo.databinding.ColorPickerFragmentBinding
+import com.example.doyo.databinding.FragmentColorPickerBinding
 
 import java.lang.ClassCastException
 
@@ -21,7 +21,7 @@ class ColorPicker: DialogFragment() {
         fun onDialogResult(color: Int)
     }
 
-    private lateinit var binding: ColorPickerFragmentBinding
+    private lateinit var binding: FragmentColorPickerBinding
     private var currentColor: Int = Color.BLACK
 
     companion object {
@@ -41,7 +41,7 @@ class ColorPicker: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = AlertDialog.Builder(requireContext())
-        binding = ColorPickerFragmentBinding.inflate(layoutInflater)
+        binding = FragmentColorPickerBinding.inflate(layoutInflater)
         val colors: Array<Int> = resources.getIntArray(R.array.palette).toList().toTypedArray()
         binding.colorList.adapter = ColorListAdapter(
             colors,

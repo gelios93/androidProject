@@ -359,7 +359,7 @@ class RoomActivity : AppCompatActivity() {
 
 
 
-        val messagesAdapter = MessageListAdapter(layoutInflater, messages)
+        val messagesAdapter = MessageListAdapter(layoutInflater, messages, this)
         chatList.adapter = messagesAdapter
         chatList.setHasFixedSize(true)
         val manager = LinearLayoutManager(this)
@@ -383,11 +383,13 @@ class RoomActivity : AppCompatActivity() {
             val date = Date()
             val minutes = if (date.minutes < 10) "0${date.minutes}" else date.minutes
             val hours = date.hours
-            messages.add(Message(newMessage.getString("value"), members.find { user ->
-                user.username == newMessage.getString(
-                    "username"
-                )
-            }!!, "$hours:$minutes"))
+
+            println(members.find { user -> user.username == newMessage.getString("username") })
+
+            messages.add(Message(newMessage.getString("value"),
+                members.find { user -> user.username == newMessage.getString("username") },
+                "$hours:$minutes"))
+
             Handler(Looper.getMainLooper()).post {
                 chatList.scrollToPosition(messages.size - 1)
                 messagesAdapter.notifyItemInserted(messages.size)
