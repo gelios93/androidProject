@@ -10,27 +10,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.example.doyo.R
-import com.example.doyo.SERVER_IP
+import com.example.doyo.saveGifToGallery
+import com.squareup.picasso.Picasso
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import pl.droidsonroids.gif.GifImageView
 
-class GifListAdapter(private val inflater: LayoutInflater):
-    ListAdapter<String, GifListAdapter.ViewHolder>(GifDiffCallback()) {
+class GifListAdapter(private val inflater: LayoutInflater, private var animations: MutableList<String>):
+    ListAdapter<GifDrawable, GifListAdapter.ViewHolder>(GifDiffCallback) {
 
     inner class ViewHolder(view: View, parentContext: Context): RecyclerView.ViewHolder(view){
         private val gifView = view.findViewById<GifImageView>(R.id.gifProfileImage)
         private val btnDownload = view.findViewById<Button>(R.id.btnGifDownloadProfile)
         private val context = parentContext
 
-        fun bind(gif: String){
-            Glide.with(context)
-                .load("$SERVER_IP/doyo/images/animations/$gif")
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .into(gifView)
+        fun bind(gif: GifDrawable, name: String){
+            Glide.with(context).load(gif).into(gifView)
+            Picasso.get().load(R.drawable.gif).into(gifView)
+
             btnDownload.setOnClickListener {
                 Toast.makeText(context, "GIF is saved!", Toast.LENGTH_SHORT).show()
+                saveGifToGallery(name, gifView, context)
+                btnDownload.isClickable = false
+                btnDownload.text = "DOWNLOADED"
             }
         }
 
@@ -44,18 +46,18 @@ class GifListAdapter(private val inflater: LayoutInflater):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val gif = getItem(position)
-        holder.bind(gif)
+        holder.bind(gif, animations[position])
     }
 
-    class GifDiffCallback: DiffUtil.ItemCallback<String>() {
+    object GifDiffCallback: DiffUtil.ItemCallback<GifDrawable>() {
         override fun areItemsTheSame(
-            oldItem: String,
-            newItem: String
+            oldItem: GifDrawable,
+            newItem: GifDrawable
         ): Boolean = oldItem == newItem
 
         override fun areContentsTheSame(
-            oldItem: String,
-            newItem: String
-        ): Boolean { return oldItem == newItem }
+            oldItem: GifDrawable,
+            newItem: GifDrawable
+        ): Boolean { return oldItem.equals(newItem) }
     }
 }

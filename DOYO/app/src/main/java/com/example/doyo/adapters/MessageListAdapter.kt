@@ -22,9 +22,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.doyo.R
 import com.example.doyo.SERVER_IP
 import com.example.doyo.models.Message
+import com.example.doyo.saveGifToGallery
 import com.example.doyo.services.AccountService
 import com.example.doyo.services.SocketService
 import com.google.android.material.card.MaterialCardView
+import com.squareup.picasso.Picasso
 import pl.droidsonroids.gif.GifImageView
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -113,7 +115,7 @@ class MessageListAdapter(
             }
 
             downloadButton.setOnClickListener {
-                saveGifToGallery(message.value, gif)
+                saveGifToGallery(message.value, gif, context)
                 Toast.makeText(context, "Gif has been saved in your storage", Toast.LENGTH_SHORT).show()
                 downloadButton.isClickable = false
                 downloadButton.text = "DOWNLOADED"
@@ -157,37 +159,5 @@ class MessageListAdapter(
 
     override fun getItemCount(): Int = messages.size
 
-    fun saveGifToGallery(gifName: String, gifView: GifImageView){
 
-        val directory = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-            "Doyo"
-        )
-
-        if (!directory.exists()) {
-            println("not exist")
-            directory.mkdir()
-        }
-
-        val file = File(directory, gifName)
-
-        val byteBuffer = (gifView.drawable as GifDrawable).buffer
-
-        try {
-            val fos = FileOutputStream(file)
-
-            val bytes = ByteArray(byteBuffer.capacity())
-            (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
-
-            fos.write(bytes,0, bytes.size)
-            fos.flush()
-            fos.close()
-        } catch (ioe: IOException) {
-            ioe.printStackTrace()
-        }
-
-        MediaScannerConnection.scanFile(context, arrayOf(Uri.fromFile(file).toString()), null, null)
-
-
-    }
 }

@@ -1,6 +1,13 @@
 package com.example.doyo.services
 
+import android.content.Context
 import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.doyo.SERVER_IP
 import com.example.doyo.models.User
 import com.example.doyo.toBitmap
 import com.google.gson.Gson
@@ -17,6 +24,7 @@ object AccountService {
     lateinit var friends: MutableList<User>
     lateinit var requests: MutableList<User>
     lateinit var animations: MutableList<String>
+//    lateinit var animations: MutableList<Bitmap>
 
     fun initAccount(responseBody: JSONObject) {
         icon = if (responseBody.has("icon")) toBitmap(responseBody.getString("icon")) else null

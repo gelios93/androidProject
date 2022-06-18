@@ -1,9 +1,19 @@
 package com.example.doyo
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaScannerConnection
+import android.net.Uri
+import android.os.Environment
 import android.util.Base64
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.ByteBuffer
 import java.util.regex.Pattern
 
 const val SERVER_IP = "http://34.147.15.234"
@@ -61,4 +71,37 @@ fun isValidPassword (password: String): ValidationResult {
     val result = INPUT_PATTERN.matcher(password).matches()
     return if (result) ValidationResult(true)
     else ValidationResult(false, "Only latin characters and digits are allowed")
+}
+
+fun saveGifToGallery(gifName: String, gifView: GifImageView, context: Context){
+
+    val directory = File(
+        Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_PICTURES),
+        "Doyo"
+    )
+
+    if (!directory.exists()) {
+        println("not exist")
+        directory.mkdir()
+    }
+
+    val file = File(directory, gifName)
+    val byteBuffer = (gifView.drawable as GifDrawable).buffer
+
+    try {
+        val fos = FileOutputStream(file)
+
+        val bytes = ByteArray(byteBuffer.capacity())
+        (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
+
+        fos.write(bytes,0, bytes.size)
+        fos.flush()
+        fos.close()
+    } catch (ioe: IOException) {
+        ioe.printStackTrace()
+    }
+
+    MediaScannerConnection.scanFile(context, arrayOf(Uri.fromFile(file).toString()), null, null)
+
 }

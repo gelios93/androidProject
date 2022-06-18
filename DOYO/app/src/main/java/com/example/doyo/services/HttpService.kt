@@ -23,9 +23,9 @@ object HttpService {
     fun signIn(context: Context, email: String, password: String) : JSONObject? {
         val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
         val respBody: JSONObject
-        val token = sharedPref.getString("token", "пися")
+        val token = sharedPref.getString("token", "empty")
 
-        if(token != "пися" || (email != " " && password != " ")) {
+        if(token != "empty" || (email != " " && password != " ")) {
             return runBlocking {
                 val htmlContent : HttpResponse = client.post("$SERVER_IP/api/auth/signin") {
                     if(email != " " && password != " ") {
@@ -45,11 +45,11 @@ object HttpService {
                 respBody = getResponse(htmlContent, false)
                 if (!respBody.has("code")){
                     sharedPref.edit().putString("token", "Bearer ${respBody.get("accessToken")}").apply()
+                    SocketService.initSocket(respBody.getString("accessToken"))
+                    SocketService.socket.connect()
+                    AccountService.initAccount(respBody)
+                    println(respBody.toString(2))
                 }
-                SocketService.initSocket(respBody.getString("accessToken"))
-                SocketService.socket.connect()
-                AccountService.initAccount(respBody)
-                println(respBody.toString(2))
                 respBody
             }
         }
