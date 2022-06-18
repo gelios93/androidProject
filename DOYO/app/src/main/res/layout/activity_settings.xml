@@ -28,7 +28,9 @@
             android:id="@+id/members"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@android:color/transparent"
             android:paddingBottom="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,22 +39,32 @@
 
         <ImageButton
             android:id="@+id/quit_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:padding="0dp"
+            android:background="@drawable/sign_out"
+            android:backgroundTint="@color/light_addition_color"
+            android:rotation="180"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/members"
-            app:srcCompat="@drawable/undo_icon" />
+            app:layout_constraintTop_toBottomOf="@+id/members"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginBottom="16dp"
-            android:text="EDIT"
+            android:text="EDIT ROOM"
+
+            android:background="@drawable/edit_button"
+            android:fontFamily="@font/aldrich"
+            android:textColor="@color/light_addition_color"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
 
             app:layout_constraintBottom_toTopOf="@+id/start_button"
             app:layout_constraintEnd_toStartOf="@+id/add_button"
@@ -60,12 +72,20 @@
             app:layout_constraintStart_toEndOf="@+id/quit_button"
             app:layout_constraintTop_toBottomOf="@+id/members" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginBottom="16dp"
             android:text="SEARCH"
+
+            android:background="@drawable/edit_button"
+            android:fontFamily="@font/aldrich"
+            android:textColor="@color/light_addition_color"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:paddingHorizontal="17dp"
+            android:paddingVertical="10dp"
 
             app:layout_constraintBottom_toTopOf="@+id/start_button"
             app:layout_constraintEnd_toStartOf="@+id/add_button"
@@ -73,14 +93,15 @@
             app:layout_constraintStart_toEndOf="@+id/quit_button"
             app:layout_constraintTop_toBottomOf="@+id/members" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/add_button"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/member_item_long_background"
-            android:text="+"
+
+            android:background="@drawable/invite"
+            android:backgroundTint="@color/light_addition_color"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/members" />
@@ -95,7 +116,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
-            app:SpinKit_Color="@color/green_palette"
+            app:SpinKit_Color="@color/dark_stroke_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/quit_button" />
@@ -120,6 +141,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="PLAYERS"
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -129,6 +154,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="2/4"
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
@@ -154,6 +183,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="    TIME    "
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -163,6 +196,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="20"
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
@@ -188,6 +225,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="FRAMES"
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -197,20 +238,29 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="4"
+
+                android:fontFamily="@font/aldrich"
+                android:textColor="@color/light_stroke_color"
+
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/start_button"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/member_item_long_background"
+            android:background="@drawable/start_button"
             android:paddingHorizontal="0dp"
             android:text="START"
+
+            android:fontFamily="@font/aldrich"
+            android:textColor="#124743"
+            android:textStyle="bold"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -219,15 +269,16 @@
 
     <ImageButton
         android:id="@+id/arrow_button"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_marginTop="-16dp"
+
+        android:background="@drawable/down"
+
         android:padding="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_sheet"
-        app:srcCompat="@android:drawable/ic_menu_more" />
+        app:layout_constraintTop_toBottomOf="@+id/top_sheet" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

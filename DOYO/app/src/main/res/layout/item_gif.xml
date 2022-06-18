@@ -18,8 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@android:color/black"
-        app:strokeWidth="1dp">
+        app:strokeColor="@color/light_addition_color"
+        app:strokeWidth="3dp">
 
     <LinearLayout
         android:id="@+id/gifProfileContainer"
@@ -36,12 +36,19 @@
     </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGifDownloadProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-24dp"
         android:text="DOWNLOAD"
+
+        android:background="@drawable/button_maket"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="17sp"
+
+        android:paddingHorizontal="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gifProfileCard" />

@@ -42,23 +42,36 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/gif_addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="-24dp"
         android:text="ADD"
+
+        android:background="@drawable/button_maket"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="17sp"
+
         app:layout_constraintStart_toStartOf="@+id/gif_card"
         app:layout_constraintTop_toBottomOf="@+id/gif_card" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/gif_downloadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-24dp"
         android:layout_marginEnd="32dp"
         android:text="DOWNLOAD"
+
+        android:background="@drawable/button_maket"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="17sp"
+        android:paddingHorizontal="10dp"
+
         app:layout_constraintEnd_toEndOf="@+id/gif_card"
         app:layout_constraintTop_toBottomOf="@+id/gif_card" />
 

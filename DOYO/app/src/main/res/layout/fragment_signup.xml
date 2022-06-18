@@ -2,30 +2,46 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAncient">
+    android:background="@drawable/main_shape">
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/editUsernameSignUp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
-        android:hint="USERNAME"
+        android:layout_marginTop="32dp"
         android:ems="10"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimary"
+
+        android:hint="USERNAME"
+
+        android:textColorHint="@color/light_stroke_color"
+        app:boxBackgroundColor="@color/main_light"
+
+        app:boxStrokeColor="@color/light_stroke_color"
+        app:boxStrokeErrorColor="@color/red_palette"
+
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/light_stroke_color"
+
+        app:errorEnabled="true"
+        app:errorTextColor="@color/red_palette"
+        app:hintTextColor="@color/light_stroke_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:endIconMode="clear_text"
-        app:errorEnabled="true">
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:backgroundTint="@color/main_light"
+
+            android:fontFamily="@font/aldrich"
+            android:singleLine="true"
+            android:textColor="@color/light_stroke_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -36,8 +52,18 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="EMAIL"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimary"
+
+        app:boxBackgroundColor="@color/main_light"
+
+        android:textColorHint="@color/light_stroke_color"
+        app:hintTextColor="@color/light_stroke_color"
+
+        app:boxStrokeColor="@color/light_stroke_color"
+        app:endIconTint="@color/light_stroke_color"
+
+        app:boxStrokeErrorColor="@color/red_palette"
+        app:errorTextColor="@color/red_palette"
+
         app:layout_constraintBottom_toTopOf="@+id/editPasswordSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,51 +74,100 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:singleLine="true"
+
+            android:fontFamily="@font/aldrich"
+            android:backgroundTint="@color/main_light"
+            android:textColor="@color/light_stroke_color"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/editPasswordSignUp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="PASSWORD"
-        android:textColor="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimary"
+
+        android:textColorHint="@color/light_stroke_color"
+
+        app:boxBackgroundColor="@color/main_light"
+        app:boxStrokeColor="@color/light_stroke_color"
+
+        app:boxStrokeErrorColor="@color/red_palette"
+        app:endIconMode="password_toggle"
+
+        app:endIconTint="@color/light_stroke_color"
+        app:errorEnabled="true"
+
+        app:errorTextColor="@color/red_palette"
+        app:hintTextColor="@color/light_stroke_color"
         app:layout_constraintBottom_toTopOf="@+id/submitUp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:endIconMode="password_toggle"
-        app:errorEnabled="true">
+        app:layout_constraintStart_toStartOf="parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
-            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:backgroundTint="@color/main_light"
+            android:fontFamily="@font/aldrich"
+
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColor="@color/light_stroke_color" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="160dp"
         android:text="SUBMIT"
+
+        android:background="@drawable/button_maket"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="17sp"
+        android:paddingHorizontal="30dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/toIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/button_maket"
+
+        android:fontFamily="@font/aldrich"
+        android:paddingHorizontal="20dp"
         android:text="SIGN IN"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="17sp"
+
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitUp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="SING UP"
+
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
+        android:textSize="40dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

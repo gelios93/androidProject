@@ -11,6 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Section"
+
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/dark_addition_color"
+        android:textStyle="bold"
+
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,8 +25,10 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_palette"
+        android:layout_height="2dp"
+
+        android:background="@color/dark_addition_color"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sectionTitle"
         app:layout_constraintVertical_bias="0.0"
@@ -33,6 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="You don't have any friends"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/dark_addition_color"
+        android:textStyle="bold"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/rvItems"
         app:layout_constraintEnd_toEndOf="parent"

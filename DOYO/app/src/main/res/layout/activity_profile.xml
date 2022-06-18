@@ -5,21 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ProfileActivity">
+    tools:context=".activities.ProfileActivity"
+    android:background="@drawable/main_shape">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SIGN OUT"
-        android:background="@drawable/tab_bg"
-        android:paddingHorizontal="24dp"
-        android:textColor="@color/gray_palette"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+
+        android:layout_marginEnd="16dp"
+
+        android:background="@drawable/sign_out"
+        android:backgroundTint="@color/light_addition_color"
+
+        android:fontFamily="@font/aldrich"
+        android:paddingHorizontal="10dp"
+        android:scaleType="fitXY"
+
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iconContainer"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035" />
+        app:layout_constraintTop_toTopOf="@+id/iconContainer" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/iconContainer"
@@ -27,9 +33,12 @@
         android:layout_height="120dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
+
+        app:strokeWidth="4dp"
+        app:strokeColor="@color/light_addition_color"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041">
 
@@ -50,58 +59,76 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+
+        android:fontFamily="@font/aldrich"
+        android:scaleType="fitXY"
         android:text="USERNAME"
-        android:textSize="20dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iconContainer" />
+        android:textColor="@color/light_stroke_color"
+        android:textSize="26sp"
+
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iconContainer"
+        app:layout_constraintTop_toTopOf="@+id/iconContainer" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/create"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:paddingHorizontal="24dp"
         android:text="CREATE ROOM"
-        android:textColor="@color/white"
+
         android:background="@drawable/gradient_bg"
+        android:textColor="@color/light_addition_color"
+        android:fontFamily="@font/aldrich"
+        android:textStyle="bold"
+        android:textSize="18sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/find"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/gradient_bg"
         android:paddingHorizontal="24dp"
-        android:textColor="@color/white"
-        android:text="FIND ROOM"
+        android:text="FIND  ROOM"
+
+        android:background="@drawable/gradient_bg"
+        android:textColor="@color/light_addition_color"
+        android:fontFamily="@font/aldrich"
+        android:textStyle="bold"
+        android:textSize="18sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/editButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:srcCompat="@drawable/edit_icon" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+
+        android:background="@drawable/edit_icon"
+        android:backgroundTint="@color/light_stroke_color"
+
+        app:layout_constraintStart_toEndOf="@+id/iconContainer"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editButton">
+        app:layout_constraintTop_toBottomOf="@+id/iconContainer">
 
         <View
             android:id="@+id/indicator"
@@ -119,7 +146,8 @@
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
             app:tabRippleColor="@null"
-            app:tabSelectedTextColor="@color/white" />
+            app:tabSelectedTextColor="@color/light_addition_color"
+            app:tabTextColor="@color/light_addition_color" />
     </FrameLayout>
 
     <androidx.viewpager2.widget.ViewPager2

@@ -111,6 +111,7 @@ class MessageListAdapter(
                 Toast.makeText(context, "Gif has been added to your profile", Toast.LENGTH_SHORT).show()
                 addButton.isClickable = false
                 addButton.text = "ADDED"
+                addButton.setBackgroundResource(R.drawable.button_clicked)
                 AccountService.animations.add(message.value)
             }
 
@@ -119,6 +120,7 @@ class MessageListAdapter(
                 Toast.makeText(context, "Gif has been saved in your storage", Toast.LENGTH_SHORT).show()
                 downloadButton.isClickable = false
                 downloadButton.text = "DOWNLOADED"
+                downloadButton.setBackgroundResource(R.drawable.button_clicked)
             }
         }
 

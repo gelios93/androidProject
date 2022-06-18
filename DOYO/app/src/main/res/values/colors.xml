@@ -26,6 +26,13 @@
     <color name="gray_palette">#808080</color>
     <color name="skin_palette">#F8E8CF</color>
 
+    <color name="main_dark">#0f0c29</color>
+    <color name="main_light">#302b63</color>
+    <color name="light_stroke_color">#F37335</color>
+    <color name="dark_stroke_color">#7f2f09</color>
+    <color name="light_addition_color">#F3F9A7</color>
+    <color name="dark_addition_color">#9da16c</color>
+
     <array name="palette">
         <item>@color/red_palette</item>
         <item>@color/pink_palette</item>

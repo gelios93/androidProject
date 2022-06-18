@@ -41,7 +41,7 @@ class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnIt
         fun bind(item: SearchFragment.SearchResult){
             button.isEnabled = true
             button.isVisible = true
-            button.background.setTint(context.resources.getColor(R.color.gray_palette, null))
+//            button.background.setTint(context.resources.getColor(R.color.gray_palette, null))
             if (item.user.icon == " ") {
                 val drawable = VectorDrawableCompat.create(context.resources, R.drawable.basic_icon, context.theme)
                 icon.setImageBitmap(drawable?.toBitmap()!!)
@@ -65,7 +65,7 @@ class SearchListAdapter(private val inflater: LayoutInflater, var listener: OnIt
                     it.startAnimation(clickAnim)
                     if (listener?.onRequestClick(currentList.indexOf(item)) == true) {
                         button.isEnabled = false
-                        button.background.setTint(context.resources.getColor(R.color.light_gray, null))
+                        button.setBackgroundResource(R.drawable.already_friend)
                     }
             }
         }

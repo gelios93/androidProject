@@ -29,6 +29,9 @@
         <activity android:name=".activities.EditActivity"></activity>
 
         <service android:name=".services.ClosingService" android:stopWithTask="false"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

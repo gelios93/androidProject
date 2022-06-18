@@ -33,6 +33,7 @@ class GifListAdapter(private val inflater: LayoutInflater, private var animation
                 saveGifToGallery(name, gifView, context)
                 btnDownload.isClickable = false
                 btnDownload.text = "DOWNLOADED"
+                btnDownload.setBackgroundResource(R.drawable.button_clicked)
             }
         }
 

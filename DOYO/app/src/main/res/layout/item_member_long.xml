@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:background="@drawable/member_item_long_background"
+    android:background="@drawable/item_background"
+    android:backgroundTint="@color/main_dark"
     android:layout_marginTop="5dp">
 
     <com.google.android.material.card.MaterialCardView

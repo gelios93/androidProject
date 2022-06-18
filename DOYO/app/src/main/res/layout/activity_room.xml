@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RoomActivity">
+    tools:context=".activities.RoomActivity"
+    android:background="@drawable/main_shape">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="86dp"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,10 +21,12 @@
         android:id="@+id/chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+
         app:layout_constrainedHeight="true"
-        android:background="#34495E"
+
         app:layout_constraintBottom_toTopOf="@+id/chatbox"
-        app:layout_constraintTop_toBottomOf="@+id/members" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
     <RelativeLayout
@@ -43,20 +47,37 @@
             android:hint="Enter Message"
             android:inputType="text"
             android:maxLines="6"
+
+            android:fontFamily="@font/aldrich"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+
             tools:ignore="Autofill" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/chat_send"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:background="?attr/selectableItemBackground"
-            android:text="Send"
-            android:textColor="@color/colorPrimary" />
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/send_icon"
+            android:backgroundTint="@color/white"
+            android:padding="10dp" />
 
     </RelativeLayout>
 
-<!--    <Button-->
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/main_light"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/members" />
+
+    <!--    <Button-->
 <!--        android:id="@+id/room_delete"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->

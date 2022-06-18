@@ -7,14 +7,20 @@
     android:layout_height="wrap_content"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
-    android:background="@color/white">
+    android:background="@color/main_dark">
 
     <TextView
         android:id="@+id/textTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0:30"
+
+        android:fontFamily="@font/aldrich"
+        android:scaleType="fitXY"
+        android:textColor="@color/light_stroke_color"
+        android:textStyle="bold"
         android:textSize="40sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +31,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1/3"
+
+        android:fontFamily="@font/aldrich"
+        android:scaleType="fitXY"
+        android:textColor="@color/light_stroke_color"
+        android:textStyle="bold"
         android:textSize="40sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textTimer"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,13 +47,17 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnFinish"
         android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_height="58dp"
         android:text="FINISH"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:background="@drawable/button_maket"
+
+        android:fontFamily="@font/aldrich"
         android:scaleType="fitXY"
+        android:textColor="@color/light_stroke_color"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingHorizontal="17dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textTimer"

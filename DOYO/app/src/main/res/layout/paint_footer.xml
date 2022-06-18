@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="4dp"
-    android:background="@color/white">
+    android:background="@color/main_light">
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider"
@@ -16,6 +16,10 @@
         android:value="16"
         android:valueFrom="8"
         android:valueTo="184"
+        app:tickColor="@color/light_stroke_color"
+        app:haloColor="@color/light_stroke_color"
+        app:thumbColor="@color/light_stroke_color"
+        app:trackColor="@color/dark_stroke_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnClear"
         app:layout_constraintHorizontal_bias="0.5"
@@ -24,18 +28,6 @@
         app:tickVisible="false"
         tools:layout_editor_absoluteY="0dp">
     </com.google.android.material.slider.Slider>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/btnClear"
-    android:layout_width="44dp"
-    android:layout_height="44dp"
-    android:layout_margin="8dp"
-    android:src="@drawable/clear_icon"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/btnColor"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toEndOf="@+id/slider"
-    app:layout_constraintTop_toTopOf="parent" />
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/btnColor"
@@ -60,18 +52,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-<de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/btnUndo"
-    android:layout_width="44dp"
-    android:layout_height="44dp"
-    android:layout_margin="8dp"
-    android:src="@drawable/undo_icon"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toEndOf="@+id/btnColor"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="1.0" />
+    <ImageButton
+        android:id="@+id/btnClear"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_margin="8dp"
+
+        android:background="@drawable/clear_icon"
+        android:backgroundTint="@color/light_stroke_color"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnColor"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/slider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnUndo"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_margin="8dp"
+
+        android:background="@drawable/undo_icon"
+        android:backgroundTint="@color/light_stroke_color"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
