@@ -11,11 +11,12 @@
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAncient"
+        android:background="@color/light_addition_color"
         android:gravity="center"
         android:padding="16dp"
         android:text="EDIT ROOM PARAMETERS"
-        android:textColor="@android:color/black"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/dark_addition_color"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TIME"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +44,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="PLAYERS"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/time_title"
@@ -55,7 +60,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="FRAMES"
-        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/aldrich"
+        android:textColor="@color/light_stroke_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
 
+        android:theme="@style/NumberPickerCustomText"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/time_title" />
@@ -78,6 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
 
+        android:theme="@style/NumberPickerCustomText"
+
         app:layout_constraintEnd_toStartOf="@+id/time_picker"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/players_title" />
@@ -87,6 +98,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+
+        android:theme="@style/NumberPickerCustomText"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/time_picker"

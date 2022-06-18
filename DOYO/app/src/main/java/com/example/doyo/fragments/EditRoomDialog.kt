@@ -1,10 +1,13 @@
 package com.example.doyo.fragments
 
 import android.app.Dialog
+import android.content.DialogInterface
+import android.graphics.Typeface
 import android.os.Bundle
 import android.widget.NumberPicker
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.example.doyo.R
 import com.example.doyo.databinding.DialogEditRoomBinding
 import com.example.doyo.services.SocketService
 import org.json.JSONObject
@@ -48,7 +51,7 @@ class EditRoomDialog (private val currentPlayers: Int, private val players: Int,
             framesPicker.wrapSelectorWheel = false
             framesPicker.value = framesVariants.indexOf(frames.toString())
 
-            AlertDialog.Builder(it)
+            val al = AlertDialog.Builder(it)
                 .setView(binding.root)
                 .setPositiveButton("Ok") { dialog, _ ->
                     val request = JSONObject()
@@ -65,6 +68,8 @@ class EditRoomDialog (private val currentPlayers: Int, private val players: Int,
                 }
                 .setNegativeButton("Cancel", null)
                 .create()
+
+            al
 
         } ?: throw IllegalStateException("Activity cannot be null")
     }
